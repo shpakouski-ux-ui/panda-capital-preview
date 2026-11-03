@@ -365,18 +365,12 @@ img{display:block;max-width:100%}
 .spk .area{opacity:0;transition:opacity 1.2s ease 1s}.in .spk .area{opacity:1}
 .spk .dot{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(0);transition:.5s cubic-bezier(.3,1.6,.5,1) 1.7s}.in .spk .dot{opacity:1;transform:scale(1)}
 .chart-tag{opacity:0;transform:translateY(8px);transition:.5s 1.9s}.in .chart-tag{opacity:1;transform:none}
-/* градиент + блик на плашках */
+/* градиент на плашках */
 .gl{position:relative;overflow:hidden;isolation:isolate;clip-path:inset(0 round var(--r-xl));-webkit-clip-path:inset(0 round var(--r-xl))}
 .note.gl{clip-path:inset(0 round var(--r-m));-webkit-clip-path:inset(0 round var(--r-m))}
 .gl:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(80% 80% at 0 0,rgba(199,255,0,.20),rgba(199,255,0,0) 70%);opacity:0;transition:opacity 1.4s ease calc(var(--d,0s) + .3s)}
 .gl.in:before{opacity:1}
-.gl:after{content:"";position:absolute;top:-10%;bottom:-10%;left:-60%;width:45%;pointer-events:none;background:linear-gradient(100deg,rgba(199,255,0,0),rgba(199,255,0,.22),rgba(255,255,255,.10),rgba(199,255,0,0));transform:skewX(-14deg);opacity:0}
-.gl.in:after{animation:sweep 1.5s cubic-bezier(.4,0,.2,1) calc(var(--d,0s) + .4s) forwards}
-@keyframes sweep{0%{left:-60%;opacity:1}100%{left:130%;opacity:1}}
-/* блик на лаймовых кнопках */
 .btn.lime{position:relative;overflow:hidden}
-.btn.lime:after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:30%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,0));transform:skewX(-18deg);animation:btnShine 5s ease-in-out 2.4s infinite;pointer-events:none}
-@keyframes btnShine{0%{left:-40%}22%,100%{left:130%}}
 /* шаги: номера по очереди, линия дорастает */
 .steps .st.rv .num i{transform:scale(.6);opacity:0;transition:.6s cubic-bezier(.3,1.6,.5,1) calc(var(--d,0s) + .15s)}
 .steps .st.in .num i{transform:none;opacity:1}
