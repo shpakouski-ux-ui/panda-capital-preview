@@ -97,10 +97,11 @@ img{display:block;max-width:100%}
 .hero h1{font-size:48px;line-height:46px}
 .hero-meta{display:flex;justify-content:center;gap:14px;font-size:13px;color:var(--text2);margin-top:12px}
 .hero-meta span+span:before{content:"•";margin-right:14px;color:var(--text3)}
-.hero-vis{position:relative;height:480px;margin:20px 0 8px;overflow:hidden}
+.hero-vis{position:relative;height:452px;margin:20px 0 0;overflow:hidden}
 .hero-vis img{position:absolute;left:0;top:40px;width:420px;height:420px}
 .hero-vis:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,9,0) 86%,#000009)}
 .hero-vis .chipwrap{position:absolute;z-index:2}
+.hero-vis .glass{white-space:nowrap}
 .float{animation:float 5s ease-in-out infinite}
 @keyframes float{50%{transform:translateY(-6px)}}
 
@@ -365,7 +366,8 @@ img{display:block;max-width:100%}
 .spk .dot{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(0);transition:.5s cubic-bezier(.3,1.6,.5,1) 1.7s}.in .spk .dot{opacity:1;transform:scale(1)}
 .chart-tag{opacity:0;transform:translateY(8px);transition:.5s 1.9s}.in .chart-tag{opacity:1;transform:none}
 /* градиент + блик на плашках */
-.gl{position:relative;overflow:hidden;isolation:isolate}
+.gl{position:relative;overflow:hidden;isolation:isolate;clip-path:inset(0 round var(--r-xl));-webkit-clip-path:inset(0 round var(--r-xl))}
+.note.gl{clip-path:inset(0 round var(--r-m));-webkit-clip-path:inset(0 round var(--r-m))}
 .gl:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(80% 80% at 0 0,rgba(199,255,0,.20),rgba(199,255,0,0) 70%);opacity:0;transition:opacity 1.4s ease calc(var(--d,0s) + .3s)}
 .gl.in:before{opacity:1}
 .gl:after{content:"";position:absolute;top:-10%;bottom:-10%;left:-60%;width:45%;pointer-events:none;background:linear-gradient(100deg,rgba(199,255,0,0),rgba(199,255,0,.22),rgba(255,255,255,.10),rgba(199,255,0,0));transform:skewX(-14deg);opacity:0}
@@ -432,7 +434,7 @@ img{display:block;max-width:100%}
   <div class="hero-vis">
     <img src="img/hero.webp" class="screen" alt="">
     <div class="chipwrap pop" style="left:20px;top:64px;--d:.9s"><div class="glass float"><span class="coin" style="width:32px;height:32px;background:#F7931A;font-size:13px">B</span><div><div class="cap">Bitcoin</div><b style="font-size:15px" data-live-btc>€62,410.20</b></div><span class="badge-up" data-live-pct>+1.84%</span></div></div>
-    <div class="chipwrap pop" style="left:152px;top:400px;--d:1.6s"><div class="glass float" style="animation-delay:1.2s" data-feed><span class="coin" style="width:32px;height:32px;background:var(--lime);color:var(--on-accent);font-size:16px" data-feed-ic><i class="ico" data-i="check"></i></span><div><b style="font-size:14px" data-feed-t>Bought 0.0042 BTC</b><div class="micro" style="color:var(--text2)" data-feed-s>Apple Pay · just now</div></div></div></div>
+    <div class="chipwrap pop" style="right:16px;top:376px;--d:1.6s"><div class="glass float" style="animation-delay:1.2s" data-feed><span class="coin" style="width:32px;height:32px;background:var(--lime);color:var(--on-accent);font-size:16px" data-feed-ic><i class="ico" data-i="check"></i></span><div><b style="font-size:14px" data-feed-t>Bought 0.0042 BTC</b><div class="micro" style="color:var(--text2)" data-feed-s>Apple Pay · just now</div></div></div></div>
   </div>
 
   <div class="tickers"><div class="band a"><div class="track" data-ticks="dim"></div></div><div class="band b"><div class="track" data-ticks></div></div></div>
@@ -938,8 +940,7 @@ document.addEventListener('pointerdown', e => { const b = e.target.closest('.btn
   if (getComputedStyle(b).position === 'static') b.style.position = 'relative'; b.style.overflow = 'hidden'; b.appendChild(s); setTimeout(() => s.remove(), 650); buzz(6); });
 // параллакс панды в hero при скролле + наклон за пальцем/курсором
 const heroImg = $('.hero-vis img');
-if (heroImg && !RM) addEventListener('scroll', () => { if (!heroImg.offsetParent) return; heroImg.style.translate = `0 ${Math.min(scrollY, 900) * -.12}px`; }, {passive:true});
-$$('.pp img, .hero-vis img').forEach(img => { const box = img.parentElement; if (RM) return; img.classList.add('tilt');
+$$('.pp img').forEach(img => { const box = img.parentElement; if (RM) return; img.classList.add('tilt');
   box.addEventListener('pointermove', e => { const r = box.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
     img.style.transform = `perspective(700px) rotateY(${x * 14}deg) rotateX(${-y * 12}deg) scale(1.03)`; });
   box.addEventListener('pointerleave', () => img.style.transform = ''); });
@@ -1029,7 +1030,7 @@ if (!RM) setInterval(() => { const d = (Math.random() - .45) * 38; btc = Math.ma
     const v = parseFloat(r.textContent.replace(/[€,]/g, '')), dv = v * (Math.random() - .5) * .002, dec = (r.textContent.split('.')[1] || '').length;
     r.textContent = '€' + (v + dv).toLocaleString('en-US', {minimumFractionDigits:dec, maximumFractionDigits:dec}); flash(r, dv >= 0); } }, 2200);
 // лента событий в плашке hero
-const FEED = [['check', 'Bought 0.0042 BTC', 'Apple Pay · just now'], ['swap', 'Converted 120 USDT → ETH', 'Instant convert · 1 min ago'], ['card', 'Paid €18.40 with PandaPay', 'Coffee Lab · 3 min ago'], ['check', 'Bought 1.25 SOL', 'Visa · just now']];
+const FEED = [['check', 'Bought 0.0042 BTC', 'Apple Pay · just now'], ['swap', 'Swapped USDT → ETH', 'Convert · 1 min ago'], ['card', 'Paid €18.40', 'PandaPay · 3 min ago'], ['check', 'Bought 1.25 SOL', 'Visa · just now']];
 let fi = 0; const feed = $('[data-feed]');
 if (feed && !RM) setInterval(() => { feed.classList.add('swap'); setTimeout(() => { fi = (fi + 1) % FEED.length; const [i, t, s] = FEED[fi];
   $('[data-feed-ic]').innerHTML = ICON(i); $('[data-feed-t]').textContent = t; $('[data-feed-s]').textContent = s; feed.classList.remove('swap'); }, 380); }, 3600);
