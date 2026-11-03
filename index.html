@@ -99,7 +99,7 @@ img{display:block;max-width:100%}
 .hero-vis{position:relative;height:480px;margin:20px 0 8px;overflow:hidden}
 .hero-vis img{position:absolute;left:0;top:40px;width:420px;height:420px}
 .hero-vis:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,9,0) 86%,#000009)}
-.hero-vis .glass{position:absolute;z-index:2}
+.hero-vis .chipwrap{position:absolute;z-index:2}
 .float{animation:float 5s ease-in-out infinite}
 @keyframes float{50%{transform:translateY(-6px)}}
 
@@ -153,7 +153,7 @@ img{display:block;max-width:100%}
 .pp h2{font-size:46px;line-height:44px}
 .pp .lede{color:var(--on-accent);line-height:24px}
 .pp .tags span{display:inline-flex;height:30px;padding:0 12px;border-radius:999px;border:1px solid rgba(0,0,9,.25);align-items:center;font-size:13px;font-weight:500;margin-right:6px}
-.pp img{width:320px;margin:0 auto}
+.pp img{width:320px;margin:36px auto 0}
 
 .sec-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
 .sec-item:last-child{border:0}
@@ -294,6 +294,54 @@ img{display:block;max-width:100%}
 .cookie-dim{position:fixed;inset:0;background:rgba(0,0,9,.55);z-index:55;display:none}
 .cookie-dim.on{display:block}
 .sp{height:64px}
+/* ================= АНИМАЦИИ ================= */
+/* hero при загрузке */
+.ln{display:block;overflow:hidden;padding-bottom:2px}
+.ln>span{display:block;animation:lineUp .9s cubic-bezier(.2,.7,.2,1) backwards}
+@keyframes lineUp{from{transform:translateY(105%)}}
+.hero .chip,.hero .lede,.hero>div{animation:fadeUp .8s cubic-bezier(.2,.7,.2,1) backwards}
+.hero .chip{animation-delay:.05s}.hero .lede{animation-delay:.45s}.hero>div{animation-delay:.6s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}}
+.hero-vis img{animation:heroIn 1.4s cubic-bezier(.2,.7,.2,1) .35s backwards}
+@keyframes heroIn{from{opacity:0;transform:scale(.86) translateY(30px)}}
+.pop{animation:pop .7s cubic-bezier(.3,1.5,.5,1) var(--d,0s) backwards}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.7)}}
+/* лента событий в плашке */
+[data-feed]>*{transition:opacity .35s,transform .35s}
+[data-feed].swap>*{opacity:0;transform:translateY(8px)}
+/* живая цена */
+.tick-up{animation:tickUp .9s}.tick-down{animation:tickDown .9s}
+@keyframes tickUp{20%{color:var(--lime);text-shadow:0 0 12px rgba(199,255,0,.6)}}
+@keyframes tickDown{20%{color:var(--down)}}
+/* появление при скролле */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1) var(--d,0s),transform .8s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+/* графики прорисовываются */
+.spk path.dr{stroke-dasharray:var(--L);stroke-dashoffset:var(--L);transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1) calc(var(--d,0s) + .25s)}
+.in .spk path.dr,.spk.in path.dr{stroke-dashoffset:0}
+.spk .area{opacity:0;transition:opacity 1.2s ease 1s}.in .spk .area{opacity:1}
+.spk .dot{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(0);transition:.5s cubic-bezier(.3,1.6,.5,1) 1.7s}.in .spk .dot{opacity:1;transform:scale(1)}
+.chart-tag{opacity:0;transform:translateY(8px);transition:.5s 1.9s}.in .chart-tag{opacity:1;transform:none}
+/* градиент + блик на плашках */
+.gl{position:relative;overflow:hidden;isolation:isolate}
+.gl:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(80% 80% at 0 0,rgba(199,255,0,.20),rgba(199,255,0,0) 70%);opacity:0;transition:opacity 1.4s ease calc(var(--d,0s) + .3s)}
+.gl.in:before{opacity:1}
+.gl:after{content:"";position:absolute;top:-10%;bottom:-10%;left:-60%;width:45%;pointer-events:none;background:linear-gradient(100deg,rgba(199,255,0,0),rgba(199,255,0,.22),rgba(255,255,255,.10),rgba(199,255,0,0));transform:skewX(-14deg);opacity:0}
+.gl.in:after{animation:sweep 1.5s cubic-bezier(.4,0,.2,1) calc(var(--d,0s) + .4s) forwards}
+@keyframes sweep{0%{left:-60%;opacity:1}100%{left:130%;opacity:1}}
+/* блик на лаймовых кнопках */
+.btn.lime{position:relative;overflow:hidden}
+.btn.lime:after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:30%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,0));transform:skewX(-18deg);animation:btnShine 5s ease-in-out 2.4s infinite;pointer-events:none}
+@keyframes btnShine{0%{left:-40%}22%,100%{left:130%}}
+/* шаги: номера по очереди, линия дорастает */
+.steps .st.rv .num i{transform:scale(.6);opacity:0;transition:.6s cubic-bezier(.3,1.6,.5,1) calc(var(--d,0s) + .15s)}
+.steps .st.in .num i{transform:none;opacity:1}
+.steps .st.rv .num:after{transform:scaleY(0);transform-origin:top;transition:transform .8s ease calc(var(--d,0s) + .45s)}
+.steps .st.in .num:after{transform:none}
+/* панды покачиваются */
+.pp img,.final-vis img,.nf .bamboo{animation:sway 6s ease-in-out infinite}
+@keyframes sway{50%{transform:translateY(-8px) rotate(-1deg)}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.spk path.dr{stroke-dashoffset:0}}
 </style>
 </head>
 <body>
@@ -341,8 +389,8 @@ img{display:block;max-width:100%}
   </section>
   <div class="hero-vis">
     <img src="img/hero.webp" class="screen" alt="">
-    <div class="glass float" style="left:20px;top:64px"><span class="coin" style="width:32px;height:32px;background:#F7931A;font-size:13px">B</span><div><div class="cap">Bitcoin</div><b style="font-size:15px">€62,410.20</b></div><span class="badge-up">+1.84%</span></div>
-    <div class="glass float" style="left:152px;top:400px;animation-delay:1.2s"><span class="coin" style="width:32px;height:32px;background:var(--lime);color:var(--on-accent);font-size:15px">✓</span><div><b style="font-size:14px">Bought 0.0042 BTC</b><div class="micro" style="color:var(--text2)">Apple Pay · just now</div></div></div>
+    <div class="chipwrap pop" style="left:20px;top:64px;--d:.9s"><div class="glass float"><span class="coin" style="width:32px;height:32px;background:#F7931A;font-size:13px">B</span><div><div class="cap">Bitcoin</div><b style="font-size:15px" data-live-btc>€62,410.20</b></div><span class="badge-up" data-live-pct>+1.84%</span></div></div>
+    <div class="chipwrap pop" style="left:152px;top:400px;--d:1.6s"><div class="glass float" style="animation-delay:1.2s" data-feed><span class="coin" style="width:32px;height:32px;background:var(--lime);color:var(--on-accent);font-size:15px" data-feed-ic>✓</span><div><b style="font-size:14px" data-feed-t>Bought 0.0042 BTC</b><div class="micro" style="color:var(--text2)" data-feed-s>Apple Pay · just now</div></div></div></div>
   </div>
 
   <div class="tickers"><div class="band a"><div class="track" data-ticks="dim"></div></div><div class="band b"><div class="track" data-ticks></div></div></div>
@@ -732,15 +780,15 @@ const BTC_EUR = 62410.20;
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const spark = (pts, w, h, down) => { const mn = Math.min(...pts), mx = Math.max(...pts), k = (w - 2) / (pts.length - 1);
   const d = pts.map((v, i) => (i ? 'L' : 'M') + (1 + i * k).toFixed(1) + ' ' + (h - 2 - (v - mn) / ((mx - mn) || 1) * (h - 4)).toFixed(1)).join(' ');
-  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" fill="none"><path d="${d}" stroke="${down ? '#ff4d5e' : '#c7ff00'}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`; };
+  return `<svg class="spk" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" fill="none"><path class="dr" d="${d}" stroke="${down ? '#ff4d5e' : '#c7ff00'}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`; };
 const coinDot = (s, c, d) => `<span class="coin" style="width:${d}px;height:${d}px;background:${c};font-size:${Math.round(d * .4)}px">${s[0]}</span>`;
 
 // ---------- шапка, футер, логотип ----------
 const LOGO = "<svg width=\"104\" height=\"30\" viewBox=\"0 0 104 30\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g clip-path=\"url(#clip0_46_39818)\">\n<path d=\"M86.3894 4.96852L78.9509 17.8523\" stroke-width=\"9.93542\" stroke-linecap=\"round\" stroke=\"white\"/>\n<path d=\"M12.407 9.77946L4.96854 22.6633\" stroke-width=\"9.93542\" stroke-linecap=\"round\" stroke=\"white\"/>\n<path d=\"M18.856 9.77946L14.207 17.8318\" stroke-width=\"9.93542\" stroke-linecap=\"round\" stroke=\"white\"/>\n<path d=\"M33.4455 9.77946L28.7964 17.8318\" stroke-width=\"9.93542\" stroke-linecap=\"round\" stroke=\"white\"/>\n<path d=\"M33.8167 9.76015L33.8168 17.786\" stroke-width=\"9.93542\" stroke-linecap=\"round\" stroke=\"white\"/>\n<path d=\"M98.6012 9.77946L93.9522 17.8318\" stroke-width=\"9.93542\" stroke-linecap=\"round\" stroke=\"white\"/>\n<path d=\"M98.9715 9.76021L98.9716 17.7859\" stroke-width=\"9.93542\" stroke-linecap=\"round\" stroke=\"white\"/>\n<path d=\"M51.361 9.77946L46.7119 17.8318\" stroke-width=\"9.93542\" stroke-linecap=\"round\" stroke=\"white\"/>\n<path d=\"M62.3514 9.77946L57.7022 17.8318\" stroke-width=\"9.93542\" stroke-linecap=\"round\" stroke=\"white\"/>\n<path d=\"M77.1092 9.77946L72.4601 17.8318\" stroke-width=\"9.93542\" stroke-linecap=\"round\" stroke=\"white\"/>\n<path d=\"M98.9885 17.0479H94.2822V22.7477H98.9885V17.0479Z\" fill=\"white\"/>\n<path d=\"M18.9303 4.81168H12.5507V7.1648H18.9303V4.81168Z\" fill=\"white\"/>\n<path d=\"M34.1994 20.3947H28.8133V22.7478H34.1994V20.3947Z\" fill=\"white\"/>\n<path d=\"M85.4451 4.81168H77.1307V10.5115H85.4451V4.81168Z\" fill=\"white\"/>\n<path d=\"M14.1257 28.092C13.2145 28.092 12.6589 27.4031 12.6589 26.4918C12.6589 25.5807 13.2145 24.8918 14.1257 24.8918C14.7925 24.8918 15.3259 25.2829 15.3703 25.914H14.9257C14.8813 25.5363 14.5703 25.2918 14.148 25.2918H14.1036C13.459 25.2918 13.1034 25.8252 13.1034 26.4918C13.1034 27.1586 13.459 27.692 14.1036 27.692H14.148C14.5703 27.692 14.8813 27.4475 14.9257 27.0696H15.3703C15.3259 27.7009 14.7925 28.092 14.1257 28.092ZM30.1906 28.0476H29.7283L29.4171 27.2474H27.9327L27.6215 28.0476H27.1681L28.3994 24.9362H28.9683L30.1906 28.0476ZM28.6749 25.3451L28.0882 26.8474H29.2616L28.6749 25.3451ZM42.6729 28.0476H42.2284V24.9362H43.5396C44.1175 24.9362 44.5397 25.2784 44.5397 25.8785C44.5397 26.4786 44.1175 26.8208 43.5396 26.8208H42.6729V28.0476ZM42.6729 25.3362V26.4208H43.473C43.873 26.4208 44.0953 26.2341 44.0953 25.8785C44.0953 25.5229 43.873 25.3362 43.473 25.3362H42.6729ZM57.1343 28.0476H56.6898V24.9362H57.1343V28.0476ZM70.7677 28.0476H70.3231V25.3362H69.2119V24.9362H71.8789V25.3362H70.7677V28.0476ZM86.2433 28.0476H85.7812L85.47 27.2474H83.9854L83.6742 28.0476H83.2209L84.4521 24.9362H85.021L86.2433 28.0476ZM84.7276 25.3451L84.1409 26.8474H85.3144L84.7276 25.3451ZM100.548 28.0476H98.2812V24.9362H98.7257V27.6476H100.548V28.0476Z\" fill=\"white\"/>\n</g>\n<defs>\n<clipPath id=\"clip0_46_39818\">\n<rect width=\"104\" height=\"29.929\" fill=\"white\"/>\n</clipPath>\n</defs>\n</svg>\n"; // логотип встроен: работает и при открытии файла с диска
-$$('.logo').forEach(l => l.innerHTML = LOGO);
 $$('[data-hdr]').forEach(el => el.replaceWith($('#t-hdr').content.cloneNode(true)));
 $$('[data-hdr-x]').forEach(el => el.replaceWith($('#t-hdr-x').content.cloneNode(true)));
 $$('[data-foot]').forEach(el => { const s = el.getAttribute('style'); const f = $('#t-foot').content.cloneNode(true); if (s) f.firstElementChild.setAttribute('style', s); el.replaceWith(f); });
+$$('.logo').forEach(l => l.innerHTML = LOGO); // после вставки шапок и футеров
 
 // ---------- тикеры ----------
 $$('[data-ticks]').forEach(t => { const dim = t.dataset.ticks === 'dim';
@@ -763,10 +811,10 @@ $$('[data-seg], [data-tf]').forEach(s => s.addEventListener('click', e => { cons
   const w = 353, h = 190, mn = Math.min(...pts), mx = Math.max(...pts), k = w / (pts.length - 1);
   const P = pts.map((v, i) => [i * k, h - 8 - (v - mn) / (mx - mn) * (h - 30)]);
   const line = P.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' '); const last = P[P.length - 1];
-  box.innerHTML = `<svg width="100%" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c7ff00" stop-opacity=".32"/><stop offset="1" stop-color="#c7ff00" stop-opacity="0"/></linearGradient></defs>
-    <path d="${line} L ${w} ${h} L 0 ${h} Z" fill="url(#ag)"/><path d="${line}" stroke="#c7ff00" stroke-width="2.2" fill="none" stroke-linejoin="round"/>
-    <circle cx="${last[0] - 6}" cy="${last[1]}" r="6" fill="#c7ff00" style="filter:drop-shadow(0 0 8px #c7ff00)"/></svg>
-    <span class="glass" style="position:absolute;right:20px;top:${Math.max(0, last[1] - 52)}px;padding:6px 10px"><b style="font-size:13px">€62,410.20</b><span class="micro">now</span></span>`; })();
+  box.innerHTML = `<svg class="spk" width="100%" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c7ff00" stop-opacity=".32"/><stop offset="1" stop-color="#c7ff00" stop-opacity="0"/></linearGradient></defs>
+    <path class="area" d="${line} L ${w} ${h} L 0 ${h} Z" fill="url(#ag)"/><path class="dr" d="${line}" stroke="#c7ff00" stroke-width="2.2" fill="none" stroke-linejoin="round"/>
+    <circle class="dot" cx="${last[0] - 6}" cy="${last[1]}" r="6" fill="#c7ff00" style="filter:drop-shadow(0 0 8px #c7ff00)"/></svg>
+    <span class="glass chart-tag" style="position:absolute;right:20px;top:${Math.max(0, last[1] - 52)}px;padding:6px 10px"><b style="font-size:13px">€62,410.20</b><span class="micro">now</span></span>`; })();
 $$('[data-conv-btc]').forEach(i => i.addEventListener('input', () => { const v = parseFloat(i.value.replace(',', '.')) || 0;
   $('[data-conv-eur]').value = (v * BTC_EUR).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }));
 $$('[data-fav]').forEach(b => b.addEventListener('click', () => { b.textContent = b.textContent === '☆' ? '★' : '☆'; b.style.color = b.textContent === '★' ? 'var(--lime)' : ''; }));
@@ -812,6 +860,45 @@ const route = () => { const p = (location.hash.replace(/^#/, '') || '/').split('
 addEventListener('hashchange', route); route();
 // шапка с подложкой при скролле
 addEventListener('scroll', () => $$('.page.on .hdr').forEach(h => h.classList.toggle('scrolled', scrollY > 8)), {passive:true});
+// ================= АНИМАЦИИ =================
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// заголовок hero по строкам
+$$('.hero h1').forEach(h => { h.innerHTML = h.innerHTML.split(/<br\s*\/?>/i).map((l, i) => `<span class="ln"><span style="animation-delay:${.12 + i * .11}s">${l}</span></span>`).join(''); });
+// появление при скролле + градиент/блик на плашках
+const RV = ['.sec > *:not(.bento):not(.steps)', '.bento > .tile', '.steps .st', '.mrow', '.mover', '.sec-item', '.stats > div', '.pp > *', '.final > *', '.method', '.topic', '.arow', '.tbl', '.kv', '.stat2 > div', '.bigfee > div', '.cta-lime', '.widget', '.phero > *', '.auth > *', '.faq details', '.foot > *', '.menu-list .mi', 'article > *'];
+const GL = '.tile, .mover, .method, .topic, .stat2 > div, .bigfee > div, .widget, .note, .card';
+const seen = new Set();
+$$(RV.join(',')).forEach(el => { if (el.closest('.hero') || el.closest('.rv') && el.closest('.rv') !== el && seen.has(el.closest('.rv'))) {}
+  if (seen.has(el)) return; seen.add(el); el.classList.add('rv');
+  const sib = [...el.parentElement.children].filter(x => RV.some(s => x.matches(s))); el.style.setProperty('--d', Math.min(sib.indexOf(el), 6) * .08 + 's'); });
+$$(GL).forEach(el => el.classList.add('gl'));
+$$('[data-chart]').forEach(c => c.classList.add('rv'));
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {rootMargin:'0px 0px -8% 0px', threshold:.12});
+$$('.rv, .gl').forEach(el => io.observe(el));
+// длина каждой линии для прорисовки
+$$('.spk path.dr').forEach(p => { let L = 0; try { L = p.getTotalLength(); } catch (e) {} p.style.setProperty('--L', Math.ceil(L || 600) + 2); });
+// счётчики в цифрах
+const countUp = el => { const tn = [...el.childNodes].find(n => n.nodeType === 3 && /\d/.test(n.textContent)); if (!tn) return;
+  const m = tn.textContent.match(/^(\D*)(\d+)(.*)$/); if (!m) return; const [, pre, num, post] = m, to = +num, t0 = performance.now(), dur = 1400;
+  const step = t => { const k = Math.min(1, (t - t0) / dur), v = Math.round(to * (1 - Math.pow(1 - k, 3))); tn.textContent = pre + v + post; if (k < 1) requestAnimationFrame(step); };
+  if (!RM) requestAnimationFrame(step); };
+const io2 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { countUp(e.target); io2.unobserve(e.target); } }), {threshold:.5});
+$$('.stats .n').forEach(n => io2.observe(n));
+// живая цена BTC в плашке hero и цены в списках
+const fmt = v => '€' + v.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+let btc = BTC_EUR;
+const flash = (el, up) => { el.classList.remove('tick-up', 'tick-down'); void el.offsetWidth; el.classList.add(up ? 'tick-up' : 'tick-down'); };
+if (!RM) setInterval(() => { const d = (Math.random() - .45) * 38; btc = Math.max(61000, btc + d);
+  $$('[data-live-btc]').forEach(e => { e.textContent = fmt(btc); flash(e, d >= 0); });
+  $$('[data-live-pct]').forEach(e => e.textContent = '+' + (1.84 + (btc - BTC_EUR) / BTC_EUR * 100).toFixed(2) + '%');
+  const rows = $$('.page.on .mrow .px b'); if (rows.length) { const r = rows[Math.floor(Math.random() * rows.length)];
+    const v = parseFloat(r.textContent.replace(/[€,]/g, '')), dv = v * (Math.random() - .5) * .002, dec = (r.textContent.split('.')[1] || '').length;
+    r.textContent = '€' + (v + dv).toLocaleString('en-US', {minimumFractionDigits:dec, maximumFractionDigits:dec}); flash(r, dv >= 0); } }, 2200);
+// лента событий в плашке hero
+const FEED = [['✓', 'Bought 0.0042 BTC', 'Apple Pay · just now'], ['⇄', 'Converted 120 USDT → ETH', 'Instant convert · 1 min ago'], ['▭', 'Paid €18.40 with PandaPay', 'Coffee Lab · 3 min ago'], ['✓', 'Bought 1.25 SOL', 'Visa · just now']];
+let fi = 0; const feed = $('[data-feed]');
+if (feed && !RM) setInterval(() => { feed.classList.add('swap'); setTimeout(() => { fi = (fi + 1) % FEED.length; const [i, t, s] = FEED[fi];
+  $('[data-feed-ic]').textContent = i; $('[data-feed-t]').textContent = t; $('[data-feed-s]').textContent = s; feed.classList.remove('swap'); }, 380); }, 3600);
 </script>
 </body>
 </html>
