@@ -18,6 +18,8 @@
   --lime:#c7ff00; --lime-soft:rgba(199,255,0,.12); --down:#ff4d5e; --down-soft:rgba(255,77,94,.15);
   --r-s:8px; --r-m:14px; --r-l:20px; --r-xl:28px;
   --g:20px;
+  /* отступы: сетка 8pt, правило внутренний <= внешний */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:80px;
   --display:'ABC Gravity Unlicensed Trial','ABC Gravity','Archivo Black',system-ui,sans-serif;
   --sans:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro',system-ui,'Segoe UI',Roboto,sans-serif;
 }
@@ -42,7 +44,7 @@ img{display:block;max-width:100%}
 .hdr{display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 var(--g);position:sticky;top:0;z-index:20;transition:background .2s}
 .hdr.scrolled{background:rgba(0,0,9,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 .logo{width:104px;height:30px}
-.hdr-r{display:flex;align-items:center;gap:14px}
+.hdr-r{display:flex;align-items:center;gap:16px}
 .hdr .login{font-size:15px;font-weight:600}
 .pill-lime{background:var(--lime);color:var(--on-accent);font-size:13px;font-weight:600;height:30px;padding:0 12px;border-radius:999px;display:inline-flex;align-items:center}
 .burger{width:24px;height:24px;display:grid;place-items:center}
@@ -59,9 +61,10 @@ img{display:block;max-width:100%}
 .lede{font-size:17px;line-height:25px;color:var(--text2)}
 .cap{font-size:13px;line-height:18px;color:var(--text2)}
 .micro{font-size:11px;line-height:14px;color:var(--text3)}
-.sec{padding:0 var(--g);margin-top:72px}
-.sec>*+*{margin-top:18px}
-.title-block>*+*{margin-top:12px}
+.sec{padding:0 var(--g);margin-top:var(--s8)}
+.sec>*+*{margin-top:var(--s4)}
+.sec>.h2,.sec>.title-block,.sec>div:first-child:has(>.title-block){margin-bottom:var(--s5)}
+.title-block>*+*{margin-top:var(--s3)}
 
 /* ---------- кнопки ---------- */
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;height:56px;width:100%;border-radius:999px;font-size:16px;font-weight:600;transition:transform .12s,opacity .12s}
@@ -77,7 +80,7 @@ img{display:block;max-width:100%}
 
 /* ---------- карточки ---------- */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl)}
-.chip{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line-strong);font-size:13px;font-weight:500}
+.chip{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 16px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line-strong);font-size:13px;font-weight:500}
 .chip .dot{width:6px;height:6px;border-radius:50%;background:var(--lime)}
 .tag{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.06);font-size:13px;font-weight:500;color:var(--text2)}
 .seg{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
@@ -85,19 +88,20 @@ img{display:block;max-width:100%}
 .seg button{flex:none;height:36px;padding:0 16px;border-radius:999px;background:var(--surface);color:var(--text2);font-size:14px;font-weight:600}
 .seg button.on{background:#fff;color:var(--on-accent)}
 .hair{height:1px;background:var(--line)}
-.glass{display:inline-flex;align-items:center;gap:10px;padding:10px 14px 10px 10px;border-radius:var(--r-l);background:rgba(16,17,22,.72);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.glass{display:inline-flex;align-items:center;gap:var(--s3);padding:var(--s3) var(--s4) var(--s3) var(--s3);border-radius:var(--r-l);background:rgba(16,17,22,.72);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 12px 30px rgba(0,0,0,.5)}
 .coin{flex:none;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff}
 .badge-up{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:999px;background:var(--lime-soft);color:var(--lime);font-size:13px;font-weight:500}
 .up{color:var(--lime)}.down{color:var(--down)}
 .screen{mix-blend-mode:screen}
 
 /* ---------- HOME ---------- */
-.hero{padding:20px var(--g) 0}
-.hero>*+*{margin-top:20px}
+.hero{padding:var(--s5) var(--g) 0}
+.hero>*+*{margin-top:var(--s4)}
+.hero>div:last-child{margin-top:var(--s5)}
 .hero h1{font-size:48px;line-height:46px}
-.hero-meta{display:flex;justify-content:center;gap:14px;font-size:13px;color:var(--text2);margin-top:12px}
-.hero-meta span+span:before{content:"•";margin-right:14px;color:var(--text3)}
-.hero-vis{position:relative;height:452px;margin:20px 0 0;overflow:hidden}
+.hero-meta{display:flex;justify-content:center;gap:16px;font-size:13px;color:var(--text2);margin-top:12px}
+.hero-meta span+span:before{content:"•";margin-right:16px;color:var(--text3)}
+.hero-vis{position:relative;height:452px;margin:var(--s5) 0 0;overflow:hidden}
 .hero-vis img{position:absolute;left:0;top:40px;width:420px;height:420px}
 .hero-vis:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,9,0) 86%,#000009)}
 .hero-vis .chipwrap{position:absolute;z-index:2}
@@ -107,7 +111,7 @@ img{display:block;max-width:100%}
 
 .tickers{position:relative;height:190px;overflow:hidden}
 .band{position:absolute;left:-14px;width:200%;height:46px;display:flex;align-items:center;white-space:nowrap}
-.band .track{display:flex;gap:22px;padding-left:24px;animation:marq 26s linear infinite}
+.band .track{display:flex;gap:24px;padding-left:24px;animation:marq 26s linear infinite}
 .band span{font-size:15px;font-weight:600}
 .band b{font-weight:700}
 .band.a{top:22px;background:var(--elevated);color:var(--lime);transform:rotate(-7deg)}
@@ -124,41 +128,44 @@ img{display:block;max-width:100%}
 .mrow .px small{font-size:13px;font-weight:500}
 .mcard{padding:4px 16px}
 
-.bento{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.tile{padding:20px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);overflow:hidden;position:relative}
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.tile{padding:var(--s4) var(--s4) var(--s4) var(--s4);border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);overflow:hidden;position:relative}
 .tile.wide{grid-column:1/-1}
 .tile h3{font-size:17px;line-height:22px;font-weight:600}
-.tile p{margin-top:6px}
+.tile p{margin-top:var(--s2)}
 .half{height:188px;display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(85% 85% at 0 0,rgba(199,255,0,.16),rgba(199,255,0,0)),var(--surface)}
 .buy-tile{height:176px;padding:0;display:flex;background:radial-gradient(60% 60% at 100% 50%,rgba(199,255,0,.10),rgba(199,255,0,0)),var(--surface)}
-.buy-tile .txt{flex:1;padding:22px 0 22px 20px;display:flex;flex-direction:column;justify-content:space-between}
+.buy-tile .txt{flex:1;padding:var(--s5) 0 var(--s5) var(--s5);display:flex;flex-direction:column;justify-content:space-between}
 .buy-tile h3{font-size:22px;line-height:26px;font-weight:700}
 .buy-tile .coin-col{width:156px;padding-right:10px;display:grid;place-items:center;background:radial-gradient(50% 50% at 50% 50%,rgba(199,255,0,.24),rgba(199,255,0,0))}
 .buy-tile .coin-col img{width:184px;height:184px;max-width:none}
 .link{display:inline-flex;align-items:center;gap:4px;font-size:15px;font-weight:600;color:var(--lime)}
 .ic-circle{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none}
-.note{display:flex;align-items:center;gap:10px;height:52px;padding:0 12px;border-radius:var(--r-m);background:var(--elevated);border:1px solid var(--line)}
+.note{display:flex;align-items:center;gap:var(--s3);height:52px;padding:0 var(--s3);border-radius:var(--r-m);background:var(--elevated);border:1px solid var(--line)}
 .note.dim{background:rgba(255,255,255,.03)}
 
 .steps .st{display:flex;gap:16px}
 .steps .num{width:48px;display:flex;flex-direction:column;align-items:center}
 .steps .num i{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-style:normal;font-size:20px;border:1.5px solid var(--lime);color:var(--lime)}
 .steps .st:first-child .num i{background:var(--lime);color:var(--on-accent);border:0}
-.steps .num:after{content:"";width:2px;flex:1;min-height:44px;background:var(--line-strong)}
+.steps .num:after{content:"";width:2px;flex:1;min-height:var(--s5);background:var(--line-strong)}
 .steps .st:last-child .num:after{display:none}
-.steps .tx{padding-top:10px;padding-bottom:16px}
-.steps .tx b{display:block;font-size:19px;font-weight:600;margin-bottom:6px}
+.steps .tx{padding-top:var(--s3);padding-bottom:var(--s5)}
+.steps .st:last-child .tx{padding-bottom:0}
+.sec>.btn,.sec>a.btn{margin-top:var(--s5)}
+.steps .tx b{display:block;font-size:19px;font-weight:600;margin-bottom:var(--s1)}
 
-.pp{color:#fff;border-radius:36px;padding:52px var(--g) 40px;margin-top:72px;overflow:hidden;position:relative;
+.pp{color:#fff;border-radius:36px;padding:var(--s7) var(--g) var(--s6);margin-top:var(--s8);overflow:hidden;position:relative;
   background:radial-gradient(130% 60% at 70% 100%,#c7ff00 0%,rgba(199,255,0,.75) 28%,rgba(199,255,0,.18) 55%,rgba(199,255,0,0) 75%),radial-gradient(60% 40% at 0% 45%,rgba(199,255,0,.14),rgba(199,255,0,0)),#000009}
-.pp>*+*{margin-top:20px}
+.pp>*+*{margin-top:var(--s4)}
+.pp>.btn{margin-top:var(--s5)}
 .pp h2{font-size:46px;line-height:44px}
 .pp .lede{color:var(--text2);line-height:24px}
 .pp .checks{display:flex;justify-content:center;gap:16px;font-size:13px;font-weight:600;color:var(--on-accent)}
 .pp .checks .ico{font-size:14px}
 .btn.white{background:#fff;color:var(--on-accent)}
 /* живая карта */
-.stage{position:relative;height:300px;margin-top:28px;perspective:900px}
+.stage{position:relative;height:296px;margin-top:var(--s5);perspective:900px}
 .stage .cn{position:absolute;pointer-events:none}
 .stage .cn.back{width:150px;left:-6px;top:4px;filter:blur(1px);animation:coinA 6s ease-in-out infinite}
 .stage .cn.front{width:170px;right:-24px;bottom:-34px;filter:blur(3px);animation:coinB 7s ease-in-out infinite}
@@ -178,55 +185,57 @@ img{display:block;max-width:100%}
 .pcard .num{position:absolute;left:22px;bottom:22px;font-size:15px;letter-spacing:.14em;color:rgba(255,255,255,.85);font-weight:500}
 .pcard .visa{position:absolute;right:22px;bottom:18px;font-size:26px;font-weight:900;font-style:italic;letter-spacing:-.02em;color:#fff}
 .pcard .tagv{position:absolute;right:22px;top:24px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6)}
-.sec-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.sec-item{display:flex;gap:var(--s4);padding:var(--s4) 0;border-bottom:1px solid var(--line)}
 .sec-item:last-child{border:0}
-.sec-item b{display:block;font-size:17px;font-weight:600;margin-bottom:4px}
+.sec-item b{display:block;font-size:17px;font-weight:600;margin-bottom:var(--s1)}
 .sec-item .ic-circle{width:40px;height:40px;background:var(--lime-soft);color:var(--lime)}
 
 .stats{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line-strong);border-radius:var(--r-xl);overflow:hidden}
-.stats>div{height:130px;padding:20px 16px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px}
+.stats>div{height:128px;padding:var(--s4);display:flex;flex-direction:column;justify-content:flex-end;gap:var(--s2)}
 .stats>div:nth-child(odd){border-right:1px solid var(--line-strong)}
 .stats>div:nth-child(-n+2){border-bottom:1px solid var(--line-strong)}
 .stats .n{font-family:var(--display);font-size:44px;line-height:44px}
 .stats .n sup{font-size:24px;color:var(--lime);vertical-align:top;line-height:28px}
 
-.final{text-align:center;padding:0 var(--g);margin-top:72px;background:radial-gradient(42% 42% at 50% 55%,rgba(199,255,0,.14),rgba(199,255,0,0))}
+.final{text-align:center;padding:0 var(--g);margin-top:var(--s8);background:radial-gradient(42% 42% at 50% 55%,rgba(199,255,0,.14),rgba(199,255,0,0))}
 .final h2{font-size:44px;line-height:42px}
-.final>*+*{margin-top:18px}
-.stores{display:flex;gap:10px}
+.final>*+*{margin-top:var(--s4)}
+.final>p{margin-top:var(--s4)}
+.final>.stores{margin-top:var(--s5)}
+.stores{display:flex;gap:var(--s3)}
 .store{flex:1;height:56px;padding:0 16px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line-strong);text-align:left;display:flex;flex-direction:column;justify-content:center}
 .store small{font-size:11px;color:var(--text2)}.store b{font-size:16px;font-weight:600}
-.final-vis{position:relative;height:320px;margin:26px calc(-1 * var(--g)) 0}
+.final-vis{position:relative;height:320px;margin:var(--s5) calc(-1 * var(--g)) 0}
 .final-vis img{position:absolute;left:0;top:0;width:100%;height:338px;max-width:none}
 
-.faq details{border-bottom:1px solid var(--line);padding:18px 0}
+.faq details{border-bottom:1px solid var(--line);padding:var(--s4) 0}
 .faq summary{list-style:none;display:flex;justify-content:space-between;gap:12px;font-size:17px;font-weight:600;line-height:23px;cursor:pointer}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary i{flex:none;width:28px;height:28px;border-radius:50%;background:var(--elevated);display:grid;place-items:center;font-style:normal;font-size:16px;font-weight:700}
 .faq details[open] summary i{background:var(--lime);color:var(--on-accent);transform:rotate(45deg)}
-.faq details p{margin-top:10px;font-size:15px;line-height:22px;color:var(--text2)}
+.faq details p{margin-top:var(--s2);font-size:15px;line-height:22px;color:var(--text2)}
 
-.foot{background:var(--surface);border-radius:36px 36px 0 0;padding:44px var(--g) 40px;position:relative;z-index:2}
-.foot>*+*{margin-top:22px}
+.foot{background:var(--surface);border-radius:36px 36px 0 0;padding:var(--s7) var(--g) var(--s6);position:relative;z-index:2}
+.foot>*+*{margin-top:var(--s5)}
 .foot details{border-bottom:1px solid var(--line)}
 .foot summary{list-style:none;height:56px;display:flex;align-items:center;justify-content:space-between;font-size:16px;font-weight:600;cursor:pointer}
 .foot summary::-webkit-details-marker{display:none}
 .foot summary:after{content:"+";color:var(--text2)}
 .foot details[open] summary:after{content:"−"}
-.foot details a{display:block;padding:0 0 14px;color:var(--text2);font-size:15px}
-.soc{display:flex;gap:10px}
+.foot details a{display:block;padding:0 0 16px;color:var(--text2);font-size:15px}
+.soc{display:flex;gap:var(--s3)}
 .soc a{width:44px;height:44px;border-radius:50%;background:var(--elevated);display:grid;place-items:center;font-size:13px;font-weight:500}
 
 /* ---------- внутренние страницы ---------- */
-.phero{padding:16px var(--g) 28px}
-.phero>*+*{margin-top:16px}
+.phero{padding:var(--s4) var(--g) var(--s6)}
+.phero>*+*{margin-top:var(--s4)}
 .phero h1{font-size:44px;line-height:43px}
 .search{display:flex;align-items:center;gap:10px;height:48px;padding:0 16px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
 .search svg{flex:none}
-.movers{display:flex;gap:10px;overflow-x:auto;margin:0 calc(-1*var(--g));padding:0 var(--g);scrollbar-width:none}
+.movers{display:flex;gap:var(--s3);overflow-x:auto;margin:0 calc(-1*var(--g));padding:0 var(--g);scrollbar-width:none}
 .movers::-webkit-scrollbar{display:none}
-.mover{flex:none;width:150px;padding:16px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line)}
-.mover>*+*{margin-top:12px}
+.mover{flex:none;width:150px;padding:var(--s4);border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line)}
+.mover>*+*{margin-top:var(--s3)}
 .pager{display:flex;justify-content:center;gap:8px}
 .pager span{width:40px;height:40px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-size:14px;font-weight:600}
 .pager span.on{background:var(--lime);color:var(--on-accent)}
@@ -242,9 +251,9 @@ img{display:block;max-width:100%}
 .kv div{display:flex;justify-content:space-between;height:52px;align-items:center;border-bottom:1px solid var(--line);font-size:15px}
 .kv div:last-child{border:0}
 .kv span{color:var(--text2)}.kv b{font-weight:600}
-.stat2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat2>div{padding:16px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line)}
-.stat2 b{display:block;font-family:var(--display);font-size:24px;margin-top:6px}
+.stat2{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.stat2>div{padding:var(--s4);border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line)}
+.stat2 b{display:block;font-family:var(--display);font-size:24px;margin-top:var(--s2)}
 
 .field{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 16px;border-radius:var(--r-l);background:var(--field);border:1.5px solid transparent}
 .field.focus{border-color:var(--lime)}
@@ -256,8 +265,8 @@ img{display:block;max-width:100%}
 .quick button.on{background:var(--lime-soft);color:var(--lime)}
 .err-t{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--down);margin-top:8px}
 .widget{padding:16px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);box-shadow:0 20px 60px rgba(199,255,0,.10)}
-.widget>*+*{margin-top:14px}
-.method{display:flex;align-items:center;gap:14px;padding:16px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line)}
+.widget>*+*{margin-top:var(--s4)}
+.method{display:flex;align-items:center;gap:var(--s4);padding:var(--s4);border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line)}
 .method .ic-circle{background:var(--lime-soft);color:var(--lime)}
 .method .fee{height:28px;padding:0 10px;border-radius:999px;background:var(--elevated);display:grid;place-items:center;font-size:13px;font-weight:500}
 .method .fee.free{background:var(--lime);color:var(--on-accent)}
@@ -268,20 +277,21 @@ img{display:block;max-width:100%}
 .tbl .r{height:52px;border-top:1px solid var(--line);font-size:15px}
 .tbl .h>:first-child,.tbl .r>:first-child{flex:1}
 .tbl .h>:not(:first-child),.tbl .r>:not(:first-child){width:78px;text-align:right;font-weight:600}
-.bigfee{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.bigfee>div{height:120px;padding:16px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:flex-end;gap:4px}
+.bigfee{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.bigfee>div{height:120px;padding:var(--s4);border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:flex-end;gap:4px}
 .bigfee b{font-family:var(--display);font-size:34px;color:var(--lime)}
 
-.topics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.topic{height:128px;padding:16px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between}
+.topics{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.topic{height:128px;padding:var(--s4);border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between}
 .topic .ic-circle{width:40px;height:40px;background:var(--lime-soft);color:var(--lime)}
 .topic b{display:block;font-size:16px;font-weight:600}
 .arow{display:flex;justify-content:space-between;align-items:center;height:56px;border-bottom:1px solid var(--line);font-size:16px;font-weight:500}
 .arow:last-child{border:0}
-.callout{display:flex;gap:12px;padding:16px;border-radius:var(--r-l);background:var(--lime-soft);border:1px solid var(--lime);font-size:15px;line-height:22px}
+.callout{display:flex;gap:var(--s3);padding:var(--s4);border-radius:var(--r-l);background:var(--lime-soft);border:1px solid var(--lime);font-size:15px;line-height:22px}
 
-.auth{padding:24px var(--g) 40px}
-.auth>*+*{margin-top:20px}
+.auth{padding:var(--s5) var(--g) var(--s6)}
+.auth>*+*{margin-top:var(--s4)}
+.auth>h1+*{margin-top:var(--s3)}
 .auth h1{font-size:44px;line-height:42px}
 .inp label{display:block;font-size:13px;color:var(--text2);margin-bottom:8px}
 .inp .box{display:flex;align-items:center;height:56px;padding:0 16px;border-radius:var(--r-l);background:var(--field);border:1px solid var(--line)}
@@ -290,14 +300,14 @@ img{display:block;max-width:100%}
 .inp input{font-size:16px;font-weight:500}
 .or{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text3)}
 .or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
-.row2{display:flex;gap:10px}
+.row2{display:flex;gap:var(--s3)}
 .trust{display:flex;gap:8px;flex-wrap:wrap}
 .trust span{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:999px;background:rgba(255,255,255,.06);font-size:13px;font-weight:500;color:var(--text2)}
 .trust span:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--lime)}
 
 /* 404 */
 .nf{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(60% 60% at 50% 95%,rgba(199,255,0,.22),rgba(199,255,0,0)),var(--bg);overflow:hidden;position:relative}
-.nf .c{padding:28px var(--g) 0;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.nf .c{padding:32px var(--g) 0;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
 .nf .big{font-family:var(--display);font-size:96px;line-height:90px;color:var(--lime)}
 .nf .bamboo{margin-top:auto;width:100%;max-width:none}
 
@@ -305,15 +315,15 @@ img{display:block;max-width:100%}
 .overlay{position:fixed;inset:0;max-width:430px;margin:0 auto;z-index:50;background:var(--bg);display:none;flex-direction:column}
 .overlay.on{display:flex}
 .menu-list{padding:16px var(--g) 0}
-.mi{display:flex;align-items:center;gap:14px;height:76px;border-bottom:1px solid var(--line)}
+.mi{display:flex;align-items:center;gap:16px;height:76px;border-bottom:1px solid var(--line)}
 .mi .ic-circle{background:var(--surface);color:var(--lime)}
 .mi b{display:block;font-size:20px;font-weight:700}
 .mi div{flex:1}
 .menu-bottom{margin-top:auto;padding:16px var(--g) 40px}
-.menu-bottom>*+*{margin-top:14px}
+.menu-bottom>*+*{margin-top:16px}
 .cookie{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);width:calc(min(100vw,430px) - 16px);z-index:60;padding:20px;border-radius:var(--r-xl);background:var(--elevated);border:1px solid var(--line-strong);box-shadow:0 -10px 40px rgba(0,0,0,.6);display:none}
 .cookie.on{display:block}
-.cookie>*+*{margin-top:14px}
+.cookie>*+*{margin-top:16px}
 .cookie-dim{position:fixed;inset:0;background:rgba(0,0,9,.55);z-index:55;display:none}
 .cookie-dim.on{display:block}
 .sp{height:64px}
@@ -345,16 +355,16 @@ img{display:block;max-width:100%}
 /* шторка успеха */
 .sheet-dim{position:fixed;inset:0;z-index:70;background:rgba(0,0,9,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s}
 .sheet-dim.on{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:50%;bottom:0;width:min(100vw,430px);z-index:71;padding:12px 20px 36px;border-radius:28px 28px 0 0;background:var(--elevated);border-top:1px solid var(--line-strong);transform:translate(-50%,105%);transition:transform .5s cubic-bezier(.2,.9,.2,1);text-align:center;overflow:hidden}
+.sheet{position:fixed;left:50%;bottom:0;width:min(100vw,430px);z-index:71;padding:12px 20px 32px;border-radius:28px 28px 0 0;background:var(--elevated);border-top:1px solid var(--line-strong);transform:translate(-50%,105%);transition:transform .5s cubic-bezier(.2,.9,.2,1);text-align:center;overflow:hidden}
 .sheet.on{transform:translate(-50%,0)}
-.sheet .grab{width:36px;height:5px;border-radius:3px;background:var(--line-strong);margin:0 auto 22px}
-.sheet .okc{width:84px;height:84px;margin:0 auto 18px;border-radius:50%;background:var(--lime-soft);display:grid;place-items:center;color:var(--lime)}
+.sheet .grab{width:36px;height:5px;border-radius:3px;background:var(--line-strong);margin:0 auto 24px}
+.sheet .okc{width:84px;height:84px;margin:0 auto 16px;border-radius:50%;background:var(--lime-soft);display:grid;place-items:center;color:var(--lime)}
 .sheet .okc svg{width:46px;height:46px}
 .sheet .okc path,.sheet .okc circle{stroke-dasharray:80;stroke-dashoffset:80}
 .sheet.on .okc circle{animation:drawOk .6s ease .25s forwards}.sheet.on .okc path{animation:drawOk .45s ease .7s forwards}
 @keyframes drawOk{to{stroke-dashoffset:0}}
 .sheet h3{font-family:var(--display);font-size:28px;line-height:30px;text-transform:uppercase}
-.sheet p{margin:10px auto 22px;max-width:300px;font-size:15px;line-height:22px;color:var(--text2)}
+.sheet p{margin:10px auto 24px;max-width:300px;font-size:15px;line-height:22px;color:var(--text2)}
 .burst{position:fixed;z-index:80;pointer-events:none;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#eaff9a,#c7ff00 55%,#6f8f00);box-shadow:0 0 10px rgba(199,255,0,.7)}
 .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:rip .6s ease-out forwards;pointer-events:none}
 @keyframes rip{to{transform:scale(4);opacity:0}}
@@ -453,7 +463,7 @@ img{display:block;max-width:100%}
 
   <div class="tickers"><div class="band a"><div class="track" data-ticks="dim"></div></div><div class="band b"><div class="track" data-ticks></div></div></div>
 
-  <section class="sec" style="margin-top:48px">
+  <section class="sec" style="margin-top:var(--s6)">
     <div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="title-block"><h2 class="h2">Today's<br>prices</h2></div><a class="link" href="#/markets">All coins ›</a></div>
     <div class="seg" data-seg><button class="on">Popular</button><button>Gainers</button><button>New</button><button>Stable</button></div>
     <div class="card mcard" data-markets="5"></div>
@@ -462,7 +472,7 @@ img{display:block;max-width:100%}
 
   <section class="sec">
     <div class="title-block"><h2 class="h2">Everything<br>in one app</h2></div>
-    <div class="bento" style="margin-top:26px">
+    <div class="bento">
       <a class="tile wide buy-tile" href="#/buy">
         <div class="txt"><div><h3>Buy with card<br>or bank</h3><p class="cap" style="margin-top:8px">Visa, Mastercard,<br>Apple Pay or SEPA.</p></div><span class="link">Buy crypto ›</span></div>
         <div class="coin-col"><img src="img/coin.webp" class="screen" alt=""></div>
@@ -470,8 +480,8 @@ img{display:block;max-width:100%}
       <div class="tile half"><div class="disp lime" style="font-size:44px;line-height:44px">150+</div><div><h3>Coins to trade</h3><p class="cap">Simple buy and sell or limit orders.</p></div></div>
       <div class="tile half"><div class="ic-circle" style="background:var(--lime);color:var(--on-accent)" data-spin><i class="ico" data-i="swap"></i></div><div><h3>Instant convert</h3><p class="cap">One tap, fixed rate, no order book.</p></div></div>
       <div class="tile wide">
-        <div style="display:flex;gap:14px;align-items:center"><div class="ic-circle" style="background:var(--lime-soft);color:var(--lime)"><i class="ico" data-i="bell"></i></div><div><h3>Alerts &amp; Face ID</h3><p class="cap">Know every move. Approve every login.</p></div></div>
-        <div style="display:grid;gap:8px;margin-top:16px">
+        <div style="display:flex;gap:16px;align-items:center"><div class="ic-circle" style="background:var(--lime-soft);color:var(--lime)"><i class="ico" data-i="bell"></i></div><div><h3>Alerts &amp; Face ID</h3><p class="cap">Know every move. Approve every login.</p></div></div>
+        <div style="display:grid;gap:var(--s2);margin-top:var(--s4)">
           <div class="note"><span class="coin" style="width:28px;height:28px;background:#627EEA;font-size:12px">E</span><div style="flex:1"><b style="font-size:14px">ETH is up 5% today</b><div class="micro">Price alert · now</div></div><span class="micro">›</span></div>
           <div class="note dim"><span class="coin" style="width:28px;height:28px;background:#F7931A;font-size:12px">B</span><div style="flex:1"><b style="font-size:14px;color:var(--text2)">New login approved</b><div class="micro">Face ID · 2 min ago</div></div><span class="micro">›</span></div>
         </div>
@@ -481,7 +491,7 @@ img{display:block;max-width:100%}
 
   <section class="sec">
     <div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="title-block"><h2 class="h2">Start in<br>3 minutes</h2></div></div>
-    <div class="steps" style="margin-top:24px">
+    <div class="steps">
       <div class="st"><div class="num"><i>1</i></div><div class="tx"><b>Create an account</b><p class="cap">Email or phone, then a password or Face ID.</p></div></div>
       <div class="st"><div class="num"><i>2</i></div><div class="tx"><b>Verify your identity</b><p class="cap">A photo of your ID and a quick selfie.</p></div></div>
       <div class="st"><div class="num"><i>3</i></div><div class="tx"><b>Buy your first crypto</b><p class="cap">Card, bank transfer or crypto from another wallet.</p></div></div>
@@ -554,17 +564,17 @@ img{display:block;max-width:100%}
     <p class="lede" style="font-size:16px">Live prices of 150+ coins you can buy on Panda.</p>
     <label class="search"><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5.5" stroke="#8a9195" stroke-width="1.6" fill="none"/><path d="M11 11l4 4" stroke="#8a9195" stroke-width="1.6"/></svg><input placeholder="Search 150+ coins" data-filter></label>
   </section>
-  <section class="sec" style="margin-top:8px">
+  <section class="sec" style="margin-top:var(--s5)">
     <div style="display:flex;justify-content:space-between;align-items:flex-end"><b style="font-size:18px">Top gainers · 24h</b><a class="link" style="font-size:13px" href="#/markets">See all</a></div>
     <div class="movers" data-movers></div>
   </section>
-  <section class="sec" style="margin-top:36px">
+  <section class="sec" style="margin-top:var(--s6)">
     <div class="seg" data-seg><button class="on">All</button><button>Favorites</button><button>Gainers</button><button>Losers</button></div>
     <div style="display:flex;justify-content:space-between;padding:0 16px" class="micro"><span>Name</span><span>Price · 24h</span></div>
     <div class="card mcard" data-markets="8" data-link></div>
     <div class="pager"><span>‹</span><span class="on">1</span><span>2</span><span>3</span><span>…</span><span>12</span><span>›</span></div>
   </section>
-  <section class="sec" style="margin-top:40px"><a class="cta-lime" href="#/signup"><div style="flex:1"><div class="disp" style="font-size:28px;line-height:28px">Ready to<br>buy?</div><p style="font-size:13px;margin-top:6px">Sign up in 3 minutes, start from €10.</p></div><span class="go">→</span></a></section>
+  <section class="sec" style="margin-top:var(--s7)"><a class="cta-lime" href="#/signup"><div style="flex:1"><div class="disp" style="font-size:28px;line-height:28px">Ready to<br>buy?</div><p style="font-size:13px;margin-top:6px">Sign up in 3 minutes, start from €10.</p></div><span class="go">→</span></a></section>
   <div data-foot></div>
 </main>
 
@@ -582,12 +592,12 @@ img{display:block;max-width:100%}
     <div class="tf" data-tf><button class="on">1D</button><button>1W</button><button>1M</button><button>1Y</button><button>All</button></div>
     <div class="row2"><a class="btn dark" href="#/buy">Sell</a><a class="btn lime shine" href="#/buy">Buy BTC</a></div>
   </section>
-  <section class="sec" style="margin-top:56px">
+  <section class="sec" style="margin-top:var(--s8)">
     <div class="title-block"><h2 class="h2">By the<br>numbers</h2></div>
     <div class="stat2"><div><span class="cap">Market cap</span><b>€1.23T</b></div><div><span class="cap">24h volume</span><b>€28.4B</b></div></div>
     <div class="card kv"><div><span>Circulating supply</span><b>19.76M BTC</b></div><div><span>All-time high</span><b>€68,120.00</b></div><div><span>Rank</span><b>#1</b></div></div>
   </section>
-  <section class="sec" style="margin-top:56px">
+  <section class="sec" style="margin-top:var(--s8)">
     <div class="title-block"><h2 class="h2">BTC to EUR</h2></div>
     <div class="widget" style="box-shadow:none">
       <div class="field"><input value="1" inputmode="decimal" data-conv-btc><span class="cur"><span class="coin" style="width:22px;height:22px;background:#F7931A;font-size:10px">B</span>BTC</span></div>
@@ -595,12 +605,12 @@ img{display:block;max-width:100%}
       <a class="btn lime" href="#/buy">Buy Bitcoin <span class="arr">→</span></a>
     </div>
   </section>
-  <section class="sec" style="margin-top:56px">
+  <section class="sec" style="margin-top:var(--s8)">
     <div class="title-block"><h2 class="h2">What is<br>Bitcoin?</h2></div>
     <p class="lede" style="font-size:16px;line-height:24px">Bitcoin is the first decentralized digital currency. It runs on a public blockchain, has a fixed supply of 21 million coins and can be sent anywhere in minutes without a bank.</p>
     <div style="display:flex;gap:8px"><a class="chip" href="#">Website →</a><a class="chip" href="#">Whitepaper →</a></div>
   </section>
-  <section class="sec faq" style="margin-top:64px">
+  <section class="sec faq" style="margin-top:var(--s8)">
     <h2 class="h2">Bitcoin FAQ</h2>
     <div><details open><summary>How do I buy Bitcoin on Panda?<i>+</i></summary><p>Create an account, verify your identity, then buy with a card, Apple Pay or a SEPA transfer. You can start from 10 EUR.</p></details>
     <details><summary>Can I sell Bitcoin for EUR?<i>+</i></summary><p>Yes, sell any time and withdraw EUR to your bank by SEPA.</p></details>
@@ -626,19 +636,19 @@ img{display:block;max-width:100%}
       <p class="micro" style="text-align:center"><i class="ico" data-i="lock"></i> You'll log in or sign up before paying</p>
     </div>
   </section>
-  <section class="sec" style="margin-top:56px">
+  <section class="sec" style="margin-top:var(--s8)">
     <div class="title-block"><h2 class="h2">Pay your<br>way</h2></div>
-    <div style="display:grid;gap:12px">
+    <div style="display:grid;gap:var(--s4)">
       <div class="method"><div class="ic-circle"><i class="ico" data-i="card"></i></div><div style="flex:1"><b style="font-size:16px">Visa / Mastercard</b><p class="cap">Instant</p></div><span class="fee">1.0%</span></div>
       <div class="method"><div class="ic-circle"><i class="ico" data-i="apple"></i></div><div style="flex:1"><b style="font-size:16px">Apple Pay</b><p class="cap">Instant</p></div><span class="fee">1.0%</span></div>
       <div class="method"><div class="ic-circle"><i class="ico" data-i="bank"></i></div><div style="flex:1"><b style="font-size:16px">SEPA bank transfer</b><p class="cap">Within 1 business day</p></div><span class="fee free">Free</span></div>
     </div>
   </section>
-  <section class="sec" style="margin-top:64px">
+  <section class="sec" style="margin-top:var(--s8)">
     <div class="title-block"><h2 class="h2">Three steps</h2></div>
     <div class="steps"><div class="st"><div class="num"><i>1</i></div><div class="tx"><b>Choose the amount</b><p class="cap">Enter how much you want to spend in EUR.</p></div></div><div class="st"><div class="num"><i>2</i></div><div class="tx"><b>Pay your way</b><p class="cap">Visa, Mastercard, Apple Pay or SEPA bank transfer.</p></div></div><div class="st"><div class="num"><i>3</i></div><div class="tx"><b>Crypto in your account</b><p class="cap">Card payments arrive in minutes, bank transfers within 1 business day.</p></div></div></div>
   </section>
-  <section class="sec faq" style="margin-top:64px"><h2 class="h2">Questions?</h2><div>
+  <section class="sec faq" style="margin-top:var(--s8)"><h2 class="h2">Questions?</h2><div>
     <details open><summary>What is the minimum amount?<i>+</i></summary><p>You can buy from 10 EUR. Limits depend on your verification level.</p></details>
     <details><summary>Why do I need to verify my identity?<i>+</i></summary><p>EU rules require identity checks for every crypto account.</p></details>
     <details><summary>Can I buy with a card from another person?<i>+</i></summary><p>No, the card must be in your name.</p></details></div></section>
@@ -648,7 +658,7 @@ img{display:block;max-width:100%}
 <!-- ======================= PANDAPAY ======================= -->
 <main class="page" data-route="/pandapay">
   <div class="glow"></div><div data-hdr></div>
-  <section class="pp" style="margin:8px 0 0;padding-top:36px">
+  <section class="pp" style="margin:8px 0 0;padding-top:32px">
     <h2 class="disp" style="font-size:48px;line-height:46px">Spend<br>crypto<br><span class="lime">like cash</span></h2>
     <p class="lede">A virtual Visa card you top up from USDT, BTC or EUR. Add it to Apple Pay and pay anywhere Visa works.</p>
     <div class="stage">
@@ -661,19 +671,19 @@ img{display:block;max-width:100%}
     <a class="btn white" href="#/signup">Get PandaPay <span class="arr">→</span></a>
     <div class="checks"><span><i class="ico" data-i="check"></i> Virtual Visa</span><span><i class="ico" data-i="check"></i> Apple Pay</span><span><i class="ico" data-i="check"></i> Google Pay</span></div>
   </section>
-  <section class="sec" style="margin-top:56px">
+  <section class="sec" style="margin-top:var(--s8)">
     <div class="title-block"><h2 class="h2">Built for<br>everyday</h2></div>
-    <div style="display:grid;gap:12px">
+    <div style="display:grid;gap:var(--s4)">
       <div class="method" style="align-items:flex-start"><div class="ic-circle" style="background:var(--lime);color:var(--on-accent)"><i class="ico" data-i="card"></i></div><div><b style="font-size:17px">Ready in 1 minute</b><p class="cap">Issue a virtual card right in the app, no paperwork.</p></div></div>
       <div class="method" style="align-items:flex-start"><div class="ic-circle" style="background:var(--lime);color:var(--on-accent)"><i class="ico" data-i="swap"></i></div><div><b style="font-size:17px">Top up from crypto</b><p class="cap">Move USDT or BTC to your card balance in EUR at a fixed rate.</p></div></div>
       <div class="method" style="align-items:flex-start"><div class="ic-circle" style="background:var(--lime);color:var(--on-accent)"><i class="ico" data-i="snow"></i></div><div><b style="font-size:17px">Freeze in one tap</b><p class="cap">Lost your phone? Freeze the card instantly and unfreeze later.</p></div></div>
     </div>
   </section>
-  <section class="sec" style="margin-top:64px"><div class="title-block"><h2 class="h2">Three steps</h2></div>
+  <section class="sec" style="margin-top:var(--s8)"><div class="title-block"><h2 class="h2">Three steps</h2></div>
     <div class="steps"><div class="st"><div class="num"><i>1</i></div><div class="tx"><b>Get the card in the app</b><p class="cap">Verified Panda users can issue a card for free.</p></div></div><div class="st"><div class="num"><i>2</i></div><div class="tx"><b>Top up from your crypto</b><p class="cap">Choose a coin and an amount in EUR.</p></div></div><div class="st"><div class="num"><i>3</i></div><div class="tx"><b>Pay with Apple Pay</b><p class="cap">Online and in stores, anywhere Visa is accepted.</p></div></div></div></section>
-  <section class="sec" style="margin-top:64px"><div class="title-block"><h2 class="h2">No surprises</h2></div>
+  <section class="sec" style="margin-top:var(--s8)"><div class="title-block"><h2 class="h2">No surprises</h2></div>
     <div class="card kv"><div><span>Card issue</span><b class="lime">Free</b></div><div><span>Monthly fee</span><b class="lime">Free</b></div><div><span>Top up from crypto</span><b class="lime">0%</b></div><div><span>Payments in EUR</span><b class="lime">Free</b></div><div><span>Other currencies</span><b>1.5%</b></div></div></section>
-  <section class="sec faq" style="margin-top:64px"><h2 class="h2">Questions?</h2><div>
+  <section class="sec faq" style="margin-top:var(--s8)"><h2 class="h2">Questions?</h2><div>
     <details open><summary>Who can get PandaPay?<i>+</i></summary><p>Verified Panda users living in the EU. The card is virtual and works with Apple Pay and Google Pay.</p></details>
     <details><summary>Is there a physical card?<i>+</i></summary><p>Not yet. PandaPay is a virtual card for Apple Pay and Google Pay.</p></details>
     <details><summary>What are the spending limits?<i>+</i></summary><p>Limits depend on your verification level and are shown in the app.</p></details></div></section>
@@ -689,11 +699,11 @@ img{display:block;max-width:100%}
     <div class="bigfee"><div><b>0.10%</b><span class="cap">Spot trading, maker &amp; taker</span></div><div><b>0%</b><span class="cap">Convert any coin to any coin</span></div></div>
   </section>
   <section style="padding:0 var(--g)"><div class="seg" data-seg data-fee-tabs><button class="on">Trading</button><button>Deposits</button><button>Withdrawals</button><button>Card</button></div></section>
-  <section class="sec" style="margin-top:24px"><b style="font-size:20px">Spot trading</b><div class="tbl"><div class="h"><span>Order</span><span>Maker</span><span>Taker</span></div><div class="r"><span>Limit / Market</span><span>0.10%</span><span>0.10%</span></div></div></section>
-  <section class="sec" style="margin-top:32px"><b style="font-size:20px">Convert</b><div class="tbl"><div class="h"><span>Pair</span><span>Fee</span></div><div class="r"><span>Any coin to any coin</span><span class="lime">0%</span></div></div><p class="micro" style="font-size:13px"><i class="ico" data-i="info"></i> The rate already includes a small spread, shown before you confirm.</p></section>
-  <section class="sec" style="margin-top:32px"><b style="font-size:20px">Crypto withdrawals</b><div class="tbl"><div class="h"><span>Coin · Network</span><span>Fee</span><span>Min</span></div>
+  <section class="sec" style="margin-top:var(--s5)"><b style="font-size:20px">Spot trading</b><div class="tbl"><div class="h"><span>Order</span><span>Maker</span><span>Taker</span></div><div class="r"><span>Limit / Market</span><span>0.10%</span><span>0.10%</span></div></div></section>
+  <section class="sec" style="margin-top:var(--s6)"><b style="font-size:20px">Convert</b><div class="tbl"><div class="h"><span>Pair</span><span>Fee</span></div><div class="r"><span>Any coin to any coin</span><span class="lime">0%</span></div></div><p class="micro" style="font-size:13px"><i class="ico" data-i="info"></i> The rate already includes a small spread, shown before you confirm.</p></section>
+  <section class="sec" style="margin-top:var(--s6)"><b style="font-size:20px">Crypto withdrawals</b><div class="tbl"><div class="h"><span>Coin · Network</span><span>Fee</span><span>Min</span></div>
     <div class="r"><span>USDT · TRC20</span><span>1 USDT</span><span>10</span></div><div class="r"><span>USDT · ERC20</span><span>4.5 USDT</span><span>20</span></div><div class="r"><span>BTC · Bitcoin</span><span>0.0002</span><span>0.001</span></div><div class="r"><span>ETH · Ethereum</span><span>0.0015</span><span>0.01</span></div><div class="r"><span>SOL · Solana</span><span>0.01</span><span>0.1</span></div></div></section>
-  <section class="sec" style="margin-top:32px"><b style="font-size:20px">EUR</b><div class="tbl"><div class="h"><span>Method</span><span>Deposit</span><span>Withdraw</span></div><div class="r"><span>SEPA transfer</span><span class="lime">Free</span><span class="lime">Free</span></div><div class="r"><span>Card / Apple Pay</span><span>1.0%</span><span>—</span></div></div></section>
+  <section class="sec" style="margin-top:var(--s6)"><b style="font-size:20px">EUR</b><div class="tbl"><div class="h"><span>Method</span><span>Deposit</span><span>Withdraw</span></div><div class="r"><span>SEPA transfer</span><span class="lime">Free</span><span class="lime">Free</span></div><div class="r"><span>Card / Apple Pay</span><span>1.0%</span><span>—</span></div></div></section>
   <div data-foot></div>
 </main>
 
@@ -705,7 +715,7 @@ img{display:block;max-width:100%}
     <label class="search" style="height:52px;border-color:var(--line-strong)"><svg width="18" height="18" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5.5" stroke="#8a9195" stroke-width="1.6" fill="none"/><path d="M11 11l4 4" stroke="#8a9195" stroke-width="1.6"/></svg><input placeholder="Search articles" style="font-size:16px"></label>
     <div style="display:flex;gap:8px"><span class="tag">Verify identity</span><span class="tag">Deposit</span><span class="tag">Fees</span></div>
   </section>
-  <section class="sec" style="margin-top:12px"><b style="font-size:20px">Topics</b>
+  <section class="sec" style="margin-top:var(--s5)"><b style="font-size:20px">Topics</b>
     <div class="topics">
       <a class="topic" href="#/article"><div class="ic-circle"><i class="ico" data-i="user"></i></div><div><b>Account &amp; KYC</b><span class="micro">14 articles</span></div></a>
       <a class="topic" href="#/article"><div class="ic-circle"><i class="ico" data-i="download"></i></div><div><b>Deposits</b><span class="micro">11 articles</span></div></a>
@@ -714,9 +724,9 @@ img{display:block;max-width:100%}
       <a class="topic" href="#/article"><div class="ic-circle"><i class="ico" data-i="lock"></i></div><div><b>Security</b><span class="micro">12 articles</span></div></a>
       <a class="topic" href="#/article"><div class="ic-circle"><i class="ico" data-i="percent"></i></div><div><b>Fees &amp; limits</b><span class="micro">6 articles</span></div></a>
     </div></section>
-  <section class="sec" style="margin-top:40px"><b style="font-size:20px">Popular articles</b>
+  <section class="sec" style="margin-top:var(--s7)"><b style="font-size:20px">Popular articles</b>
     <div><a class="arow" href="#/article">How to verify your identity<span class="micro">›</span></a><a class="arow" href="#/article">How to deposit crypto<span class="micro">›</span></a><a class="arow" href="#/article">How to buy crypto with a card<span class="micro">›</span></a><a class="arow" href="#/article">I sent crypto on the wrong network<span class="micro">›</span></a><a class="arow" href="#/article">How to set up the authenticator app<span class="micro">›</span></a></div></section>
-  <section class="sec" style="margin-top:40px"><div class="card" style="padding:24px"><div style="display:flex;gap:10px;align-items:center"><div class="ic-circle" style="background:var(--lime);color:var(--on-accent)"><i class="ico" data-i="chat"></i></div><div><b style="font-size:18px">Still need help?</b><p class="cap">Chat with our team 24/7, in the app or here.</p></div></div><a class="btn lime" style="margin-top:14px" href="#">Chat with us <span class="arr">→</span></a></div></section>
+  <section class="sec" style="margin-top:var(--s7)"><div class="card" style="padding:var(--s5)"><div style="display:flex;gap:10px;align-items:center"><div class="ic-circle" style="background:var(--lime);color:var(--on-accent)"><i class="ico" data-i="chat"></i></div><div><b style="font-size:18px">Still need help?</b><p class="cap">Chat with our team 24/7, in the app or here.</p></div></div><a class="btn lime" style="margin-top:16px" href="#">Chat with us <span class="arr">→</span></a></div></section>
   <div data-foot></div>
 </main>
 
@@ -731,7 +741,7 @@ img{display:block;max-width:100%}
     <b style="font-size:22px;display:block;padding-top:4px">What to do</b>
     <div class="steps"><div class="st"><div class="num"><i>1</i></div><div class="tx"><b>Find the transaction hash</b><p class="cap">Copy it from the wallet or exchange you sent from.</p></div></div><div class="st"><div class="num"><i>2</i></div><div class="tx"><b>Open a recovery request</b><p class="cap">Panda app → Profile → Help &amp; support → Deposit recovery.</p></div></div><div class="st"><div class="num"><i>3</i></div><div class="tx"><b>Wait for the review</b><p class="cap">Usually within 3 business days. A recovery fee may apply.</p></div></div></div>
     <div class="callout"><span class="lime"><i class="ico" data-i="info"></i></span><span>Funds sent on a network Panda doesn't support for this coin can't be recovered.</span></div>
-    <div class="card" style="padding:20px;text-align:center"><b style="font-size:17px">Was this article helpful?</b><div class="row2" style="margin-top:14px;justify-content:center" data-helpful><button class="btn dark sm" style="width:120px">Yes</button><button class="btn dark sm" style="width:120px">No</button></div></div>
+    <div class="card" style="padding:20px;text-align:center"><b style="font-size:17px">Was this article helpful?</b><div class="row2" style="margin-top:16px;justify-content:center" data-helpful><button class="btn dark sm" style="width:120px">Yes</button><button class="btn dark sm" style="width:120px">No</button></div></div>
     <b style="font-size:20px;display:block">Related</b>
     <div><a class="arow" href="#/article">How to deposit crypto<span class="micro">›</span></a><a class="arow" href="#/article">How to verify your identity<span class="micro">›</span></a><a class="arow" href="#/article">How to set up the authenticator app<span class="micro">›</span></a></div>
   </article>
@@ -748,15 +758,15 @@ img{display:block;max-width:100%}
     <a class="btn lime shine" href="#/signup">Get bonus <span class="arr">→</span></a>
     <img src="img/promo.webp" style="width:353px;margin:0 auto" alt="Panda with a pile of crypto coins">
   </section>
-  <section class="sec" style="margin-top:40px">
+  <section class="sec" style="margin-top:var(--s7)">
     <div class="title-block"><h2 class="h2">Three steps<br>to $3,000</h2></div>
-    <div style="display:grid;gap:12px">
-      <div class="card" style="padding:18px"><div style="display:flex;justify-content:space-between"><b style="font-size:17px">Sign up</b><span class="disp lime" style="font-size:22px">01</span></div><p class="cap" style="margin-top:10px">Create a Panda account with email or phone.</p></div>
-      <div class="card" style="padding:18px"><div style="display:flex;justify-content:space-between"><b style="font-size:17px">Verify your identity</b><span class="disp lime" style="font-size:22px">02</span></div><p class="cap" style="margin-top:10px">A photo of your ID and a quick selfie.</p></div>
-      <div class="card" style="padding:18px"><div style="display:flex;justify-content:space-between"><b style="font-size:17px">Deposit and trade</b><span class="disp lime" style="font-size:22px">03</span></div><p class="cap" style="margin-top:10px">Credits unlock as you trade, up to $3,000.</p></div>
+    <div style="display:grid;gap:var(--s4)">
+      <div class="card" style="padding:var(--s4)"><div style="display:flex;justify-content:space-between"><b style="font-size:17px">Sign up</b><span class="disp lime" style="font-size:22px">01</span></div><p class="cap" style="margin-top:var(--s2)">Create a Panda account with email or phone.</p></div>
+      <div class="card" style="padding:var(--s4)"><div style="display:flex;justify-content:space-between"><b style="font-size:17px">Verify your identity</b><span class="disp lime" style="font-size:22px">02</span></div><p class="cap" style="margin-top:var(--s2)">A photo of your ID and a quick selfie.</p></div>
+      <div class="card" style="padding:var(--s4)"><div style="display:flex;justify-content:space-between"><b style="font-size:17px">Deposit and trade</b><span class="disp lime" style="font-size:22px">03</span></div><p class="cap" style="margin-top:var(--s2)">Credits unlock as you trade, up to $3,000.</p></div>
     </div>
   </section>
-  <section class="sec" style="margin-top:40px"><div style="padding:20px;border-radius:var(--r-xl);border:1px solid var(--line-strong)"><b style="font-size:17px">Terms</b><p class="cap" style="margin-top:10px">Offer for new users in the EU until 31 Dec 2026. Credits cover trading fees only and can't be withdrawn. Full terms apply.</p><a class="link" style="font-size:13px;margin-top:10px" href="#">Read full terms →</a></div></section>
+  <section class="sec" style="margin-top:var(--s7)"><div style="padding:20px;border-radius:var(--r-xl);border:1px solid var(--line-strong)"><b style="font-size:17px">Terms</b><p class="cap" style="margin-top:var(--s2)">Offer for new users in the EU until 31 Dec 2026. Credits cover trading fees only and can't be withdrawn. Full terms apply.</p><a class="link" style="font-size:13px;margin-top:10px" href="#">Read full terms →</a></div></section>
   <div data-foot></div>
 </main>
 
