@@ -9,47 +9,49 @@
 <meta name="apple-mobile-web-app-title" content="Panda">
 <meta name="theme-color" content="#000000">
 <meta name="robots" content="noindex">
-<title>Panda MVP prototype</title>
+<title>Panda</title>
 <style>
 :root{--bg:#000;--panel:#0d0f12;--line:#1d2127;--text:#e8ecef;--muted:#8a929a;--lime:#c8ff00}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,system-ui,sans-serif;overflow:hidden;overscroll-behavior:none}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,system-ui,sans-serif;overflow:hidden;overscroll-behavior:none;touch-action:pan-y}
 #app{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
 #stage{position:relative;overflow:hidden;background:#000;flex:none}
-#layer{position:absolute;left:0;top:0;width:100%;aspect-ratio:393/852}
-#layer img{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:none}
-#layer img.next{opacity:0}
-.hs{position:absolute;border-radius:10px;cursor:pointer}
-.flash .hs,.show .hs{background:rgba(200,255,0,.18);box-shadow:0 0 0 1.5px var(--lime) inset}
-.flash .hs{animation:fl .7s ease-out forwards}
-@keyframes fl{to{background:rgba(200,255,0,0);box-shadow:0 0 0 1.5px rgba(200,255,0,0) inset}}
-#sbar{position:absolute;left:0;right:0;top:0;background:#000;display:none;z-index:3}
-/* map button over the status bar centre (phone) */
-#mapbtn{position:absolute;z-index:4;top:6px;left:50%;transform:translateX(-50%);height:26px;padding:0 12px;border-radius:13px;border:0;background:rgba(255,255,255,.12);color:#fff;font:600 12px -apple-system,system-ui,sans-serif;display:none;cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-/* desktop chrome */
+.scr{position:absolute;inset:0;background:#000;will-change:transform}
+.scr .mid{position:absolute;left:0;right:0;background-size:100% 100%;background-repeat:no-repeat}
+.scr .top{position:absolute;left:0;right:0;top:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none}
+.scr .top::-webkit-scrollbar{display:none}
+.scr .img{position:relative;background-repeat:no-repeat}
+.scr .bot{position:absolute;left:0;right:0;bottom:0;background-repeat:no-repeat}
+.hs{position:absolute;border-radius:12px;cursor:pointer;transition:background .15s}
+.hs:active,.hs.down{background:rgba(0,0,0,.28)}
+.show .hs{box-shadow:0 0 0 1.5px var(--lime) inset;background:rgba(200,255,0,.12)}
+#sbar{position:absolute;left:0;right:0;top:0;z-index:5;display:none}
+#press{position:absolute;left:0;right:0;top:0;height:44px;z-index:6}
+/* desktop */
 #side{display:none}
-body.desk #app{justify-content:center;gap:48px;padding:24px}
+body.desk #app{gap:48px;padding:24px}
 body.desk #stage{border-radius:54px;box-shadow:0 0 0 10px #16191d,0 0 0 11px #2a2f36,0 40px 120px rgba(0,0,0,.6)}
 body.desk #side{display:flex;flex-direction:column;width:300px;max-height:calc(100vh - 48px);background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden}
 .side-h{padding:20px 20px 12px;border-bottom:1px solid var(--line)}
 .side-h h1{margin:0 0 4px;font-size:17px}
 .side-h p{margin:0;color:var(--muted);font-size:12px}
-.tog{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--muted);cursor:pointer;user-select:none}
+.tog{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--muted);cursor:pointer}
 .tog input{accent-color:var(--lime)}
+.sizes{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.sizes button{background:#15181c;border:1px solid var(--line);color:var(--muted);border-radius:8px;font:500 11px system-ui;padding:4px 8px;cursor:pointer}
+.sizes button.on{color:var(--lime);border-color:#3a4a10}
 .list{overflow:auto;padding:8px 0 16px}
 .list h2{margin:14px 20px 6px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .list a{display:block;padding:6px 20px;color:var(--text);text-decoration:none;font-size:13px;border-left:2px solid transparent}
 .list a:hover{background:#13161a}
 .list a.on{border-left-color:var(--lime);color:var(--lime);background:#12160a}
-/* phone map overlay */
-#map{position:fixed;inset:0;z-index:10;background:rgba(0,0,0,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 12px) 0 env(safe-area-inset-bottom)}
+#map{position:fixed;inset:0;z-index:10;background:rgba(0,0,0,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 12px) 0 env(safe-area-inset-bottom)}
 #map.open{display:flex}
 #map .top{display:flex;align-items:center;justify-content:space-between;padding:0 16px 8px}
 #map .top b{font-size:17px}
 #map button{background:#1a1d22;color:#fff;border:0;border-radius:16px;height:32px;padding:0 14px;font:600 13px -apple-system,system-ui,sans-serif}
 #map .list{flex:1}
 #map .list a{padding:10px 16px;font-size:15px}
-#map .list h2{margin:18px 16px 6px}
 #hint{position:fixed;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom) + 16px);z-index:9;background:#15181c;border:1px solid var(--line);border-radius:16px;padding:12px 14px;font-size:13px;display:none;gap:10px;align-items:center}
 #hint b{color:var(--lime)}
 #hint button{margin-left:auto;background:none;border:0;color:var(--muted);font-size:20px;line-height:1;padding:0 2px}
@@ -57,16 +59,13 @@ body.desk #side{display:flex;flex-direction:column;width:300px;max-height:calc(1
 </head>
 <body>
 <div id="app">
-  <div id="stage">
-    <div id="layer"><img id="a" alt=""><div id="hsl"></div></div>
-    <div id="sbar"></div>
-    <button id="mapbtn" aria-label="All screens">Screens</button>
-  </div>
+  <div id="stage"><div id="sbar"></div><div id="press"></div></div>
   <aside id="side">
     <div class="side-h">
       <h1>Panda MVP · v2</h1>
-      <p>Coins: deposit, withdraw, transfer. Account: log in, settings, withdrawal whitelist. Tap anywhere to see what's clickable.</p>
+      <p>Coins: deposit, withdraw, transfer. Account: log in, settings, withdrawal whitelist. On iPhone: long-press the status bar for the screen list, swipe from the left edge to go back.</p>
       <label class="tog"><input type="checkbox" id="showhs"> Show clickable areas</label>
+      <div class="sizes" id="sizes"></div>
     </div>
     <nav class="list" id="list1"></nav>
   </aside>
@@ -74,78 +73,109 @@ body.desk #side{display:flex;flex-direction:column;width:300px;max-height:calc(1
 <div id="map"><div class="top"><b>All screens</b><button id="mapclose">Close</button></div><nav class="list" id="list2"></nav></div>
 <div id="hint"><span>For full screen: <b>Share → Add to Home Screen</b></span><button id="hintx" aria-label="Close">×</button></div>
 <script>
-const S=[{"id":"log-in","name":"Log in","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"log-in-2fa"},{"b":[16,356,113,18],"to":"forgot-email"},{"b":[16,702,361,52],"to":"wallet"},{"b":[16,422,176,52],"to":"wallet"},{"b":[202,422,176,52],"to":"wallet"},{"b":[16,292,361,48],"to":"log-in-wrong-password"},{"b":[4,53,46,46],"to":"back"}]},{"id":"log-in-wrong-password","name":"Log in - Wrong password","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"log-in-2fa"},{"b":[16,382,113,18],"to":"forgot-email"},{"b":[4,53,46,46],"to":"back"}]},{"id":"log-in-2fa","name":"Log in - 2FA","sec":"Вход","hs":[{"b":[0,560,393,292],"to":"log-in-new-device"},{"b":[4,53,46,46],"to":"back"}]},{"id":"log-in-new-device","name":"Log in - New device","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"wallet"},{"b":[16,702,361,52],"to":"wallet"}]},{"id":"app-lock","name":"App lock","sec":"Вход","hs":[{"b":[16,690,361,52],"to":"wallet"},{"b":[16,754,361,52],"to":"log-in"}]},{"id":"forgot-email","name":"Forgot - Email","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"forgot-code"},{"b":[4,53,46,46],"to":"back"}]},{"id":"forgot-code","name":"Forgot - Code","sec":"Вход","hs":[{"b":[0,560,393,292],"to":"forgot-new-password"},{"b":[4,53,46,46],"to":"back"}]},{"id":"forgot-new-password","name":"Forgot - New password","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"forgot-done"},{"b":[4,53,46,46],"to":"back"}]},{"id":"forgot-done","name":"Forgot - Done","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"log-in"}]},{"id":"wallet-empty","name":"Wallet - Empty","sec":"Кошелёк и история","hs":[{"b":[87,460,220,52],"to":"deposit-select-coin"},{"b":[162,776,70,39],"to":"history"},{"b":[275,776,70,39],"to":"account"}]},{"id":"wallet","name":"Wallet","sec":"Кошелёк и история","hs":[{"b":[16,246,80,78],"to":"deposit-select-coin"},{"b":[110,246,80,78],"to":"withdraw-select-coin"},{"b":[203,246,80,78],"to":"transfer-select-coin"},{"b":[297,246,80,78],"to":"history"},{"b":[16,432,361,60],"to":"coin-btc"},{"b":[16,368,361,60],"to":"withdraw-select-coin"},{"b":[162,776,70,39],"to":"history"},{"b":[275,776,70,39],"to":"account"}]},{"id":"coin-btc","name":"Coin - BTC","sec":"Кошелёк и история","hs":[{"b":[8,286,80,78],"to":"deposit-select-coin"},{"b":[157,286,80,78],"to":"withdraw-select-coin"},{"b":[305,286,80,78],"to":"transfer-select-coin"},{"b":[16,528,361,56],"to":"history-details"},{"b":[4,53,46,46],"to":"back"}]},{"id":"history","name":"History","sec":"Кошелёк и история","hs":[{"b":[16,384,361,64],"to":"history-details"},{"b":[16,232,361,64],"to":"transfer-details"},{"b":[16,166,361,64],"to":"deposit-pending"},{"b":[48,776,70,39],"to":"wallet"},{"b":[275,776,70,39],"to":"account"}]},{"id":"history-details","name":"History - Details","sec":"Кошелёк и история","hs":[{"b":[4,53,46,46],"to":"back"}]},{"id":"deposit-select-coin","name":"Deposit - Select coin","sec":"Пополнение","hs":[{"b":[16,184,361,60],"to":"deposit-select-network"},{"b":[16,246,361,60],"to":"deposit-select-network"},{"b":[4,53,46,46],"to":"back"}]},{"id":"deposit-select-network","name":"Deposit - Select network","sec":"Пополнение","hs":[{"b":[16,548,361,60],"to":"deposit-address"},{"b":[4,53,46,46],"to":"back"},{"b":[345,446,44,44],"to":"back"}]},{"id":"deposit-address","name":"Deposit - Address","sec":"Пополнение","hs":[{"b":[32,380,329,44],"to":"deposit-copied"},{"b":[16,766,361,52],"to":"deposit-pending"},{"b":[4,53,46,46],"to":"back"}]},{"id":"deposit-copied","name":"Deposit - Copied","sec":"Пополнение","hs":[{"b":[16,766,361,52],"to":"deposit-pending"},{"b":[32,380,329,44],"to":"deposit-pending"},{"b":[4,53,46,46],"to":"back"}]},{"id":"deposit-pending","name":"Deposit - Pending","sec":"Пополнение","hs":[{"b":[72,192,249,38],"to":"deposit-credited"},{"b":[4,53,46,46],"to":"back"}]},{"id":"deposit-credited","name":"Deposit - Credited","sec":"Пополнение","hs":[{"b":[16,766,361,52],"to":"wallet"},{"b":[16,702,361,52],"to":"deposit-pending"}]},{"id":"withdraw-select-coin","name":"Withdraw - Select coin","sec":"Вывод","hs":[{"b":[16,184,361,60],"to":"withdraw-empty"},{"b":[16,246,361,60],"to":"withdraw-empty"},{"b":[4,53,46,46],"to":"back"}]},{"id":"withdraw-empty","name":"Withdraw - Empty","sec":"Вывод","hs":[{"b":[16,140,361,48],"to":"withdraw-whitelisted-addresses"},{"b":[4,53,46,46],"to":"back"}]},{"id":"withdraw-whitelisted-addresses","name":"Withdraw - Whitelisted addresses","sec":"Вывод","hs":[{"b":[16,554,361,56],"to":"withdraw-filled"},{"b":[16,626,361,56],"to":"withdraw-filled"},{"b":[16,770,361,48],"to":"withdrawal-addresses-add"},{"b":[4,53,46,46],"to":"back"},{"b":[345,504,44,44],"to":"back"}]},{"id":"withdraw-network","name":"Withdraw - Network","sec":"Вывод","hs":[{"b":[16,530,361,60],"to":"withdraw-filled"},{"b":[4,53,46,46],"to":"back"},{"b":[345,446,44,44],"to":"back"}]},{"id":"withdraw-filled","name":"Withdraw - Filled","sec":"Вывод","hs":[{"b":[16,766,361,52],"to":"withdraw-2fa"},{"b":[16,228,361,48],"to":"withdraw-network"},{"b":[16,316,361,48],"to":"withdraw-not-enough"},{"b":[16,140,361,48],"to":"withdraw-whitelisted-addresses"},{"b":[4,53,46,46],"to":"back"}]},{"id":"withdraw-not-enough","name":"Withdraw - Not enough","sec":"Вывод","hs":[{"b":[16,316,361,48],"to":"withdraw-filled"},{"b":[4,53,46,46],"to":"back"}]},{"id":"withdraw-2fa","name":"Withdraw - 2FA","sec":"Вывод","hs":[{"b":[16,766,361,52],"to":"withdraw-travel-rule"},{"b":[4,53,46,46],"to":"back"},{"b":[345,495,44,44],"to":"back"}]},{"id":"withdraw-travel-rule","name":"Withdraw - Travel Rule","sec":"Вывод","hs":[{"b":[16,784,361,52],"to":"withdraw-under-review"},{"b":[4,53,46,46],"to":"back"},{"b":[345,454,44,44],"to":"back"}]},{"id":"withdraw-under-review","name":"Withdraw - Under review","sec":"Вывод","hs":[{"b":[16,766,361,52],"to":"withdraw-sent"}]},{"id":"withdraw-sent","name":"Withdraw - Sent","sec":"Вывод","hs":[{"b":[16,766,361,52],"to":"wallet"},{"b":[16,702,361,52],"to":"history-details"}]},{"id":"transfer-select-coin","name":"Transfer - Select coin","sec":"Перевод внутри биржи","hs":[{"b":[16,184,361,60],"to":"transfer-empty"},{"b":[16,246,361,60],"to":"transfer-empty"},{"b":[4,53,46,46],"to":"back"}]},{"id":"transfer-empty","name":"Transfer - Empty","sec":"Перевод внутри биржи","hs":[{"b":[16,140,361,48],"to":"transfer-filled"},{"b":[4,53,46,46],"to":"back"}]},{"id":"transfer-filled","name":"Transfer - Filled","sec":"Перевод внутри биржи","hs":[{"b":[16,766,361,52],"to":"transfer-2fa"},{"b":[16,140,361,48],"to":"transfer-user-not-found"},{"b":[16,316,361,48],"to":"transfer-not-enough"},{"b":[4,53,46,46],"to":"back"}]},{"id":"transfer-user-not-found","name":"Transfer - User not found","sec":"Перевод внутри биржи","hs":[{"b":[16,140,361,48],"to":"transfer-filled"},{"b":[4,53,46,46],"to":"back"}]},{"id":"transfer-not-enough","name":"Transfer - Not enough","sec":"Перевод внутри биржи","hs":[{"b":[16,316,361,48],"to":"transfer-filled"},{"b":[4,53,46,46],"to":"back"}]},{"id":"transfer-2fa","name":"Transfer - 2FA","sec":"Перевод внутри биржи","hs":[{"b":[16,766,361,52],"to":"transfer-done"},{"b":[4,53,46,46],"to":"back"},{"b":[345,495,44,44],"to":"back"}]},{"id":"transfer-done","name":"Transfer - Done","sec":"Перевод внутри биржи","hs":[{"b":[16,766,361,52],"to":"wallet"},{"b":[16,702,361,52],"to":"transfer-details"}]},{"id":"transfer-details","name":"Transfer - Details","sec":"Перевод внутри биржи","hs":[{"b":[16,766,361,52],"to":"transfer-filled"},{"b":[4,53,46,46],"to":"back"}]},{"id":"account","name":"Account","sec":"Учётная запись","hs":[{"b":[16,214,361,52],"to":"personal-info"},{"b":[16,266,361,52],"to":"security"},{"b":[16,318,361,52],"to":"withdrawal-addresses"},{"b":[16,370,361,52],"to":"notification-settings"},{"b":[16,422,361,52],"to":"settings"},{"b":[16,658,361,52],"to":"log-out"},{"b":[48,776,70,39],"to":"wallet"},{"b":[162,776,70,39],"to":"history"}]},{"id":"personal-info","name":"Personal info","sec":"Учётная запись","hs":[{"b":[4,53,46,46],"to":"back"}]},{"id":"notification-settings","name":"Notification settings","sec":"Учётная запись","hs":[{"b":[4,53,46,46],"to":"back"}]},{"id":"settings","name":"Settings","sec":"Учётная запись","hs":[{"b":[16,112,361,52],"to":"settings-language"},{"b":[4,53,46,46],"to":"back"}]},{"id":"settings-language","name":"Settings - Language","sec":"Учётная запись","hs":[{"b":[16,450,361,48],"to":"settings"},{"b":[4,53,46,46],"to":"back"},{"b":[345,400,44,44],"to":"back"}]},{"id":"log-out","name":"Log out","sec":"Учётная запись","hs":[{"b":[16,718,361,52],"to":"log-in"},{"b":[16,786,361,52],"to":"account"},{"b":[4,53,46,46],"to":"back"}]},{"id":"delete-account","name":"Delete account","sec":"Учётная запись","hs":[{"b":[16,766,361,52],"to":"log-in"},{"b":[4,53,46,46],"to":"back"}]},{"id":"security","name":"Security","sec":"Безопасность","hs":[{"b":[16,376,361,52],"to":"change-password"},{"b":[16,324,361,52],"to":"2fa-1-app"},{"b":[16,428,361,52],"to":"change-email"},{"b":[16,480,361,52],"to":"change-phone"},{"b":[16,272,361,52],"to":"passkeys"},{"b":[16,546,361,52],"to":"devices"},{"b":[16,598,361,52],"to":"withdrawal-addresses"},{"b":[4,53,46,46],"to":"back"}]},{"id":"change-password","name":"Change password","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"security"},{"b":[4,53,46,46],"to":"back"}]},{"id":"2fa-1-app","name":"2FA - 1 App","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"2fa-2-key"},{"b":[4,53,46,46],"to":"back"}]},{"id":"2fa-2-key","name":"2FA - 2 Key","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"2fa-3-code"},{"b":[4,53,46,46],"to":"back"}]},{"id":"2fa-3-code","name":"2FA - 3 Code","sec":"Безопасность","hs":[{"b":[0,560,393,292],"to":"2fa-enabled"},{"b":[4,53,46,46],"to":"back"}]},{"id":"2fa-enabled","name":"2FA - Enabled","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"security"}]},{"id":"change-email","name":"Change email","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"security"},{"b":[4,53,46,46],"to":"back"}]},{"id":"change-phone","name":"Change phone","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"change-phone-code"},{"b":[4,53,46,46],"to":"back"}]},{"id":"change-phone-code","name":"Change phone - Code","sec":"Безопасность","hs":[{"b":[0,560,393,292],"to":"change-phone-done"},{"b":[4,53,46,46],"to":"back"}]},{"id":"change-phone-done","name":"Change phone - Done","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"security"}]},{"id":"passkeys","name":"Passkeys","sec":"Безопасность","hs":[{"b":[4,53,46,46],"to":"back"}]},{"id":"devices","name":"Devices","sec":"Безопасность","hs":[{"b":[4,53,46,46],"to":"back"}]},{"id":"withdrawal-addresses-empty","name":"Withdrawal addresses - Empty","sec":"Белые адреса на вывод","hs":[{"b":[16,344,361,52],"to":"withdrawal-addresses-add"},{"b":[4,53,46,46],"to":"back"}]},{"id":"withdrawal-addresses-add","name":"Withdrawal addresses - Add","sec":"Белые адреса на вывод","hs":[{"b":[16,766,361,52],"to":"withdrawal-addresses-2fa"},{"b":[4,53,46,46],"to":"back"}]},{"id":"withdrawal-addresses-2fa","name":"Withdrawal addresses - 2FA","sec":"Белые адреса на вывод","hs":[{"b":[0,560,393,292],"to":"withdrawal-addresses-confirm-email"},{"b":[4,53,46,46],"to":"back"}]},{"id":"withdrawal-addresses-confirm-email","name":"Withdrawal addresses - Confirm email","sec":"Белые адреса на вывод","hs":[{"b":[16,766,361,52],"to":"withdrawal-addresses"},{"b":[16,702,361,52],"to":"withdrawal-addresses"}]},{"id":"withdrawal-addresses","name":"Withdrawal addresses","sec":"Белые адреса на вывод","hs":[{"b":[16,360,361,52],"to":"withdrawal-addresses-add"},{"b":[16,196,361,52],"to":"withdrawal-addresses-remove"},{"b":[16,144,361,52],"to":"withdrawal-addresses-remove"},{"b":[4,53,46,46],"to":"back"}]},{"id":"withdrawal-addresses-remove","name":"Withdrawal addresses - Remove","sec":"Белые адреса на вывод","hs":[{"b":[16,766,176,52],"to":"withdrawal-addresses"},{"b":[202,766,176,52],"to":"withdrawal-addresses"},{"b":[4,53,46,46],"to":"back"}]}];
+const S=[{"id":"log-in","name":"Log in","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"log-in-2fa"},{"b":[16,356,113,18],"to":"forgot-email"},{"b":[16,702,361,52],"to":"wallet"},{"b":[16,422,176,52],"to":"wallet"},{"b":[202,422,176,52],"to":"wallet"},{"b":[16,292,361,48],"to":"log-in-wrong-password"},{"b":[4,53,46,46],"to":"back"}],"split":690,"sheet":false,"tabs":false,"top":"#000009"},{"id":"log-in-wrong-password","name":"Log in - Wrong password","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"log-in-2fa"},{"b":[16,382,113,18],"to":"forgot-email"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"log-in-2fa","name":"Log in - 2FA","sec":"Вход","hs":[{"b":[0,560,393,292],"to":"log-in-new-device"},{"b":[4,53,46,46],"to":"back"}],"split":605,"sheet":false,"tabs":false,"top":"#000009"},{"id":"log-in-new-device","name":"Log in - New device","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"wallet"},{"b":[16,702,361,52],"to":"wallet"}],"split":690,"sheet":false,"tabs":false,"top":"#000009"},{"id":"app-lock","name":"App lock","sec":"Вход","hs":[{"b":[16,690,361,52],"to":"wallet"},{"b":[16,754,361,52],"to":"log-in"}],"split":678,"sheet":false,"tabs":false,"top":"#4d5e05"},{"id":"forgot-email","name":"Forgot - Email","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"forgot-code"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"forgot-code","name":"Forgot - Code","sec":"Вход","hs":[{"b":[0,560,393,292],"to":"forgot-new-password"},{"b":[4,53,46,46],"to":"back"}],"split":605,"sheet":false,"tabs":false,"top":"#000009"},{"id":"forgot-new-password","name":"Forgot - New password","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"forgot-done"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"forgot-done","name":"Forgot - Done","sec":"Вход","hs":[{"b":[16,766,361,52],"to":"log-in"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"wallet-empty","name":"Wallet - Empty","sec":"Кошелёк и история","hs":[{"b":[87,460,220,52],"to":"deposit-select-coin"},{"b":[162,776,70,39],"to":"history"},{"b":[275,776,70,39],"to":"account"}],"split":769,"sheet":false,"tabs":true,"top":"#000009"},{"id":"wallet","name":"Wallet","sec":"Кошелёк и история","hs":[{"b":[16,246,80,78],"to":"deposit-select-coin"},{"b":[110,246,80,78],"to":"withdraw-select-coin"},{"b":[203,246,80,78],"to":"transfer-select-coin"},{"b":[297,246,80,78],"to":"history"},{"b":[16,432,361,60],"to":"coin-btc"},{"b":[16,368,361,60],"to":"withdraw-select-coin"},{"b":[162,776,70,39],"to":"history"},{"b":[275,776,70,39],"to":"account"}],"split":769,"sheet":false,"tabs":true,"top":"#000009"},{"id":"coin-btc","name":"Coin - BTC","sec":"Кошелёк и история","hs":[{"b":[8,286,80,78],"to":"deposit-select-coin"},{"b":[157,286,80,78],"to":"withdraw-select-coin"},{"b":[305,286,80,78],"to":"transfer-select-coin"},{"b":[16,528,361,56],"to":"history-details"},{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"history","name":"History","sec":"Кошелёк и история","hs":[{"b":[16,384,361,64],"to":"history-details"},{"b":[16,232,361,64],"to":"transfer-details"},{"b":[16,166,361,64],"to":"deposit-pending"},{"b":[48,776,70,39],"to":"wallet"},{"b":[275,776,70,39],"to":"account"}],"split":769,"sheet":false,"tabs":true,"top":"#000009"},{"id":"history-details","name":"History - Details","sec":"Кошелёк и история","hs":[{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"deposit-select-coin","name":"Deposit - Select coin","sec":"Пополнение","hs":[{"b":[16,184,361,60],"to":"deposit-select-network"},{"b":[16,246,361,60],"to":"deposit-select-network"},{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"deposit-select-network","name":"Deposit - Select network","sec":"Пополнение","hs":[{"b":[16,548,361,60],"to":"deposit-address"},{"b":[4,53,46,46],"to":"back"},{"b":[345,446,44,44],"to":"back"}],"split":423,"sheet":true,"tabs":false,"top":"#000003"},{"id":"deposit-address","name":"Deposit - Address","sec":"Пополнение","hs":[{"b":[32,380,329,44],"to":"deposit-copied"},{"b":[16,766,361,52],"to":"deposit-pending"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"deposit-copied","name":"Deposit - Copied","sec":"Пополнение","hs":[{"b":[16,766,361,52],"to":"deposit-pending"},{"b":[32,380,329,44],"to":"deposit-pending"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"deposit-pending","name":"Deposit - Pending","sec":"Пополнение","hs":[{"b":[72,192,249,38],"to":"deposit-credited"},{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"deposit-credited","name":"Deposit - Credited","sec":"Пополнение","hs":[{"b":[16,766,361,52],"to":"wallet"},{"b":[16,702,361,52],"to":"deposit-pending"}],"split":690,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdraw-select-coin","name":"Withdraw - Select coin","sec":"Вывод","hs":[{"b":[16,184,361,60],"to":"withdraw-empty"},{"b":[16,246,361,60],"to":"withdraw-empty"},{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdraw-empty","name":"Withdraw - Empty","sec":"Вывод","hs":[{"b":[16,140,361,48],"to":"withdraw-whitelisted-addresses"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdraw-whitelisted-addresses","name":"Withdraw - Whitelisted addresses","sec":"Вывод","hs":[{"b":[16,554,361,56],"to":"withdraw-filled"},{"b":[16,626,361,56],"to":"withdraw-filled"},{"b":[16,770,361,48],"to":"withdrawal-addresses-add"},{"b":[4,53,46,46],"to":"back"},{"b":[345,504,44,44],"to":"back"}],"split":481,"sheet":true,"tabs":false,"top":"#000003"},{"id":"withdraw-network","name":"Withdraw - Network","sec":"Вывод","hs":[{"b":[16,530,361,60],"to":"withdraw-filled"},{"b":[4,53,46,46],"to":"back"},{"b":[345,446,44,44],"to":"back"}],"split":423,"sheet":true,"tabs":false,"top":"#000003"},{"id":"withdraw-filled","name":"Withdraw - Filled","sec":"Вывод","hs":[{"b":[16,766,361,52],"to":"withdraw-2fa"},{"b":[16,228,361,48],"to":"withdraw-network"},{"b":[16,316,361,48],"to":"withdraw-not-enough"},{"b":[16,140,361,48],"to":"withdraw-whitelisted-addresses"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdraw-not-enough","name":"Withdraw - Not enough","sec":"Вывод","hs":[{"b":[16,316,361,48],"to":"withdraw-filled"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdraw-2fa","name":"Withdraw - 2FA","sec":"Вывод","hs":[{"b":[16,766,361,52],"to":"withdraw-travel-rule"},{"b":[4,53,46,46],"to":"back"},{"b":[345,495,44,44],"to":"back"}],"split":472,"sheet":true,"tabs":false,"top":"#000003"},{"id":"withdraw-travel-rule","name":"Withdraw - Travel Rule","sec":"Вывод","hs":[{"b":[16,784,361,52],"to":"withdraw-under-review"},{"b":[4,53,46,46],"to":"back"},{"b":[345,454,44,44],"to":"back"}],"split":431,"sheet":true,"tabs":false,"top":"#000003"},{"id":"withdraw-under-review","name":"Withdraw - Under review","sec":"Вывод","hs":[{"b":[16,766,361,52],"to":"withdraw-sent"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdraw-sent","name":"Withdraw - Sent","sec":"Вывод","hs":[{"b":[16,766,361,52],"to":"wallet"},{"b":[16,702,361,52],"to":"history-details"}],"split":690,"sheet":false,"tabs":false,"top":"#000009"},{"id":"transfer-select-coin","name":"Transfer - Select coin","sec":"Перевод внутри биржи","hs":[{"b":[16,184,361,60],"to":"transfer-empty"},{"b":[16,246,361,60],"to":"transfer-empty"},{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"transfer-empty","name":"Transfer - Empty","sec":"Перевод внутри биржи","hs":[{"b":[16,140,361,48],"to":"transfer-filled"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"transfer-filled","name":"Transfer - Filled","sec":"Перевод внутри биржи","hs":[{"b":[16,766,361,52],"to":"transfer-2fa"},{"b":[16,140,361,48],"to":"transfer-user-not-found"},{"b":[16,316,361,48],"to":"transfer-not-enough"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"transfer-user-not-found","name":"Transfer - User not found","sec":"Перевод внутри биржи","hs":[{"b":[16,140,361,48],"to":"transfer-filled"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"transfer-not-enough","name":"Transfer - Not enough","sec":"Перевод внутри биржи","hs":[{"b":[16,316,361,48],"to":"transfer-filled"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"transfer-2fa","name":"Transfer - 2FA","sec":"Перевод внутри биржи","hs":[{"b":[16,766,361,52],"to":"transfer-done"},{"b":[4,53,46,46],"to":"back"},{"b":[345,495,44,44],"to":"back"}],"split":472,"sheet":true,"tabs":false,"top":"#000003"},{"id":"transfer-done","name":"Transfer - Done","sec":"Перевод внутри биржи","hs":[{"b":[16,766,361,52],"to":"wallet"},{"b":[16,702,361,52],"to":"transfer-details"}],"split":690,"sheet":false,"tabs":false,"top":"#000009"},{"id":"transfer-details","name":"Transfer - Details","sec":"Перевод внутри биржи","hs":[{"b":[16,766,361,52],"to":"transfer-filled"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"account","name":"Account","sec":"Учётная запись","hs":[{"b":[16,214,361,52],"to":"personal-info"},{"b":[16,266,361,52],"to":"security"},{"b":[16,318,361,52],"to":"withdrawal-addresses"},{"b":[16,370,361,52],"to":"notification-settings"},{"b":[16,422,361,52],"to":"settings"},{"b":[16,658,361,52],"to":"log-out"},{"b":[48,776,70,39],"to":"wallet"},{"b":[162,776,70,39],"to":"history"}],"split":769,"sheet":false,"tabs":true,"top":"#000009"},{"id":"personal-info","name":"Personal info","sec":"Учётная запись","hs":[{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"notification-settings","name":"Notification settings","sec":"Учётная запись","hs":[{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"settings","name":"Settings","sec":"Учётная запись","hs":[{"b":[16,112,361,52],"to":"settings-language"},{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"settings-language","name":"Settings - Language","sec":"Учётная запись","hs":[{"b":[16,450,361,48],"to":"settings"},{"b":[4,53,46,46],"to":"back"},{"b":[345,400,44,44],"to":"back"}],"split":377,"sheet":true,"tabs":false,"top":"#000003"},{"id":"log-out","name":"Log out","sec":"Учётная запись","hs":[{"b":[16,718,361,52],"to":"log-in"},{"b":[16,786,361,52],"to":"account"},{"b":[4,53,46,46],"to":"back"}],"split":589,"sheet":true,"tabs":false,"top":"#000003"},{"id":"delete-account","name":"Delete account","sec":"Учётная запись","hs":[{"b":[16,766,361,52],"to":"log-in"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"security","name":"Security","sec":"Безопасность","hs":[{"b":[16,376,361,52],"to":"change-password"},{"b":[16,324,361,52],"to":"2fa-1-app"},{"b":[16,428,361,52],"to":"change-email"},{"b":[16,480,361,52],"to":"change-phone"},{"b":[16,272,361,52],"to":"passkeys"},{"b":[16,546,361,52],"to":"devices"},{"b":[16,598,361,52],"to":"withdrawal-addresses"},{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"change-password","name":"Change password","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"security"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"2fa-1-app","name":"2FA - 1 App","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"2fa-2-key"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"2fa-2-key","name":"2FA - 2 Key","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"2fa-3-code"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"2fa-3-code","name":"2FA - 3 Code","sec":"Безопасность","hs":[{"b":[0,560,393,292],"to":"2fa-enabled"},{"b":[4,53,46,46],"to":"back"}],"split":605,"sheet":false,"tabs":false,"top":"#000009"},{"id":"2fa-enabled","name":"2FA - Enabled","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"security"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"change-email","name":"Change email","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"security"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"change-phone","name":"Change phone","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"change-phone-code"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"change-phone-code","name":"Change phone - Code","sec":"Безопасность","hs":[{"b":[0,560,393,292],"to":"change-phone-done"},{"b":[4,53,46,46],"to":"back"}],"split":605,"sheet":false,"tabs":false,"top":"#000009"},{"id":"change-phone-done","name":"Change phone - Done","sec":"Безопасность","hs":[{"b":[16,766,361,52],"to":"security"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"passkeys","name":"Passkeys","sec":"Безопасность","hs":[{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"devices","name":"Devices","sec":"Безопасность","hs":[{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdrawal-addresses-empty","name":"Withdrawal addresses - Empty","sec":"Белые адреса на вывод","hs":[{"b":[16,344,361,52],"to":"withdrawal-addresses-add"},{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdrawal-addresses-add","name":"Withdrawal addresses - Add","sec":"Белые адреса на вывод","hs":[{"b":[16,766,361,52],"to":"withdrawal-addresses-2fa"},{"b":[4,53,46,46],"to":"back"}],"split":754,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdrawal-addresses-2fa","name":"Withdrawal addresses - 2FA","sec":"Белые адреса на вывод","hs":[{"b":[0,560,393,292],"to":"withdrawal-addresses-confirm-email"},{"b":[4,53,46,46],"to":"back"}],"split":605,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdrawal-addresses-confirm-email","name":"Withdrawal addresses - Confirm email","sec":"Белые адреса на вывод","hs":[{"b":[16,766,361,52],"to":"withdrawal-addresses"},{"b":[16,702,361,52],"to":"withdrawal-addresses"}],"split":690,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdrawal-addresses","name":"Withdrawal addresses","sec":"Белые адреса на вывод","hs":[{"b":[16,360,361,52],"to":"withdrawal-addresses-add"},{"b":[16,196,361,52],"to":"withdrawal-addresses-remove"},{"b":[16,144,361,52],"to":"withdrawal-addresses-remove"},{"b":[4,53,46,46],"to":"back"}],"split":852,"sheet":false,"tabs":false,"top":"#000009"},{"id":"withdrawal-addresses-remove","name":"Withdrawal addresses - Remove","sec":"Белые адреса на вывод","hs":[{"b":[16,766,176,52],"to":"withdrawal-addresses"},{"b":[202,766,176,52],"to":"withdrawal-addresses"},{"b":[4,53,46,46],"to":"back"}],"split":657,"sheet":true,"tabs":false,"top":"#000003"}];
 const BY=Object.fromEntries(S.map(s=>[s.id,s]));
-const START='log-in';
-const W=393,H=852,SB=54;
+const START='log-in', W=393, H=852, SB=54;
 const $=id=>document.getElementById(id);
-const stage=$('stage'),layer=$('layer'),hsl=$('hsl');
-const isStandalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
-const isDesk=matchMedia('(hover:hover) and (pointer:fine)').matches&&innerWidth>=900;
-if(isDesk) document.body.classList.add('desk');
-const cache={};
-function src(id){return 'screens/'+id+'.webp';}
-function pre(id){ if(!id||cache[id]) return; const i=new Image(); i.src=src(id); cache[id]=i; }
-function layout(){
-  const vw=innerWidth, vh=innerHeight;
-  let w,h;
-  if(isDesk){ h=Math.min(H, vh-48); w=h*W/H; stage.style.width=w+'px'; stage.style.height=h+'px'; layer.style.top='0'; return; }
-  if(isStandalone){
-    // real iOS status bar on top: hide the drawn one, keep content from y=54
-    const safe=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sat'))||0;
-    w=vw; const s=w/W; h=vh; stage.style.width=w+'px'; stage.style.height=h+'px';
-    const top=Math.max(0,safe)-SB*s; layer.style.top=top+'px';
-    const sb=$('sbar'); sb.style.display='block'; sb.style.height=Math.max(0,safe)+'px';
-    $('mapbtn').style.top=(Math.max(safe,20)+4)+'px';
-    return;
-  }
-  // mobile browser: fit whole screen into the viewport
-  const s=Math.min(vw/W, vh/H); w=W*s; h=H*s;
-  stage.style.width=w+'px'; stage.style.height=h+'px'; layer.style.top='0';
+const stage=$('stage');
+const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const desk=matchMedia('(hover:hover) and (pointer:fine)').matches&&innerWidth>=900;
+if(desk) document.body.classList.add('desk');
+const DEV=[['iPhone SE',375,667],['iPhone 13 mini',375,812],['iPhone 16',393,852],['iPhone 16 Pro Max',440,956]];
+let devI=2;
+const safeTop=(()=>{ const p=document.createElement('div'); p.style.cssText='position:fixed;top:0;height:env(safe-area-inset-top);visibility:hidden'; document.body.appendChild(p); const v=p.offsetHeight; p.remove(); return v; })();
+let G={}; // geometry
+function geom(){
+  let vw=innerWidth, vh=innerHeight;
+  if(desk){ const d=DEV[devI]; const k=Math.min(1,(vh-48)/d[2]); vw=d[1]*k; vh=d[2]*k; }
+  else vw=Math.min(vw,520);
+  const s=vw/W;
+  const crop=standalone?SB:0, sTop=standalone?safeTop:0;
+  G={vw,vh,s,crop,sTop};
+  stage.style.width=vw+'px'; stage.style.height=vh+'px';
+  const sb=$('sbar'); sb.style.display=standalone?'block':'none'; sb.style.height=sTop+'px';
 }
-document.documentElement.style.setProperty('--sat','env(safe-area-inset-top)');
-// resolve env() to px
-(()=>{ const p=document.createElement('div'); p.style.cssText='position:fixed;top:0;height:env(safe-area-inset-top);visibility:hidden'; document.body.appendChild(p); document.documentElement.style.setProperty('--sat',p.offsetHeight+''); p.remove(); })();
-let cur=null; const img=$('a');
-function render(id){
-  const s=BY[id]||BY[START]; cur=s.id;
-  img.src=src(s.id);
-  hsl.innerHTML='';
-  for(const h of s.hs){
-    const d=document.createElement('div'); d.className='hs';
-    const [x,y,w,hh]=h.b; d.style.cssText=`left:${x/W*100}%;top:${y/H*100}%;width:${w/W*100}%;height:${hh/H*100}%`;
-    d.onclick=e=>{ e.stopPropagation(); go(h.to); }; hsl.appendChild(d);
+const url=id=>'screens/'+id+'.webp';
+const cache={}; function pre(id){ if(!id||cache[id]) return; const i=new Image(); i.src=url(id); cache[id]=i; }
+function build(id){
+  const d=BY[id]; const {vw,vh,s,crop,sTop}=G;
+  const el=document.createElement('div'); el.className='scr'; el.dataset.id=id;
+  const bg=`url(${url(id)})`, size=`${vw}px ${H*s}px`;
+  const botH=(H-d.split)*s;
+  const mid=document.createElement('div'); mid.className='mid'; mid.style.cssText=`top:${sTop}px;bottom:${botH}px;background-image:url(screens/${id}-mid.png)`; el.appendChild(mid);
+  const top=document.createElement('div'); top.className='top'; top.style.top=sTop+'px'; top.style.bottom=botH+'px';
+  const img=document.createElement('div'); img.className='img'; img.style.cssText=`height:${(d.split-crop)*s}px;background-image:${bg};background-size:${size};background-position:0 ${-crop*s}px`;
+  top.appendChild(img); el.appendChild(top);
+  let bot=null;
+  if(d.split<H){ bot=document.createElement('div'); bot.className='bot'; bot.style.cssText=`height:${botH}px;background-image:${bg};background-size:${size};background-position:0 ${-d.split*s}px`; el.appendChild(bot); }
+  for(const h of d.hs){
+    const [x,y,w,hh]=h.b; const inBot=bot&&y>=d.split-4;
+    const e=document.createElement('div'); e.className='hs';
+    e.style.cssText=`left:${x*s}px;width:${w*s}px;height:${hh*s}px;top:${(inBot?y-d.split:y-crop)*s}px`;
+    e.addEventListener('click',ev=>{ ev.stopPropagation(); go(h.to, inBot&&d.tabs?'none':null); });
+    (inBot?bot:img).appendChild(e);
     if(h.to!=='back') pre(h.to);
   }
-  document.querySelectorAll('.list a').forEach(a=>a.classList.toggle('on',a.dataset.id===s.id));
+  return el;
+}
+let cur=null, curEl=null, busy=false;
+function anim(el,from,to,ms){ return el.animate([{transform:from},{transform:to}],{duration:ms,easing:'cubic-bezier(.2,.8,.2,1)',fill:'forwards'}).finished; }
+async function show(id,dir){
+  const d=BY[id]||BY[START]; id=d.id;
+  const el=build(id); const old=curEl; cur=id; curEl=el;
+  stage.insertBefore(el,$('sbar'));
+  document.querySelectorAll('.list a').forEach(a=>a.classList.toggle('on',a.dataset.id===id));
   const on=document.querySelector('#list1 a.on'); if(on) on.scrollIntoView({block:'nearest'});
-  document.title=s.name+' · Panda prototype';
+  document.title=d.name+' · Panda';
+  $('sbar').style.background=d.top;
+  if(!old) return;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(dir==='none'||reduce){ old.remove(); return; }
+  busy=true;
+  const oldD=BY[old.dataset.id];
+  try{
+    if(dir==='fwd'&&d.sheet){ el.querySelector('.bot')&&anim(el.querySelector('.bot'),'translateY(100%)','translateY(0)',320); await el.animate([{opacity:0},{opacity:1}],{duration:220,fill:'forwards'}).finished; }
+    else if(dir==='back'&&oldD.sheet){ stage.appendChild(old); stage.appendChild($('sbar')); stage.appendChild($('press')); const b=old.querySelector('.bot'); if(b) anim(b,'translateY(0)','translateY(100%)',260); await old.animate([{opacity:1},{opacity:0}],{duration:260,fill:'forwards'}).finished; }
+    else if(dir==='back'){ stage.appendChild(old); stage.appendChild($('sbar')); stage.appendChild($('press')); anim(el,'translateX(-30%)','translateX(0)',300); await anim(old,'translateX(0)','translateX(100%)',300); }
+    else { anim(old,'translateX(0)','translateX(-30%)',320); await anim(el,'translateX(100%)','translateX(0)',320); }
+  }catch(e){}
+  old.remove(); busy=false;
 }
-function go(to){
-  if(to==='back'){ if(history.length>1&&history.state&&history.state.n>0) history.back(); return; }
+function go(to,mode){
+  if(busy) return;
+  if(to==='back'){ if(history.state&&history.state.n>0) history.back(); return; }
+  if(to===cur) return;
   const n=(history.state&&history.state.n||0)+1;
-  history.pushState({id:to,n},'', '#'+to); render(to);
+  history.pushState({id:to,n},'','#'+to); show(to,mode||'fwd');
 }
-addEventListener('hashchange',()=>{ const id=location.hash.slice(1); if(id!==cur&&BY[id]) render(id); });
-addEventListener('popstate',e=>render((e.state&&e.state.id)||location.hash.slice(1)||START));
-layer.addEventListener('click',()=>{ layer.classList.remove('flash'); void layer.offsetWidth; layer.classList.add('flash'); });
-$('showhs').onchange=e=>layer.classList.toggle('show',e.target.checked);
-function buildList(el){
-  let sec=null;
+let lastN=0;
+addEventListener('popstate',e=>{ const st=e.state||{}; const id=st.id||location.hash.slice(1)||START; const dir=(st.n||0)<lastN?'back':'fwd'; lastN=st.n||0; show(id, (BY[cur]&&BY[cur].tabs&&BY[id].tabs)?'none':dir); });
+const _push=history.pushState.bind(history); history.pushState=(st,t,u)=>{ lastN=st.n; _push(st,t,u); };
+// swipe from the left edge = back
+let sx=null,sy=0;
+stage.addEventListener('touchstart',e=>{ const t=e.touches[0]; const r=stage.getBoundingClientRect(); sx=(t.clientX-r.left<24)?t.clientX:null; sy=t.clientY; },{passive:true});
+stage.addEventListener('touchend',e=>{ if(sx===null) return; const t=e.changedTouches[0]; if(t.clientX-sx>70&&Math.abs(t.clientY-sy)<60) go('back'); sx=null; },{passive:true});
+// long-press the status bar = screen list
+let lp=null; const press=$('press');
+const lpStart=()=>{ lp=setTimeout(()=>$('map').classList.add('open'),600); }, lpEnd=()=>clearTimeout(lp);
+press.addEventListener('touchstart',lpStart,{passive:true}); press.addEventListener('touchend',lpEnd); press.addEventListener('touchmove',lpEnd,{passive:true});
+press.addEventListener('mousedown',lpStart); press.addEventListener('mouseup',lpEnd);
+press.addEventListener('contextmenu',e=>{ e.preventDefault(); $('map').classList.add('open'); });
+$('mapclose').onclick=()=>$('map').classList.remove('open');
+$('showhs').onchange=e=>stage.classList.toggle('show',e.target.checked);
+function buildList(el){ let sec=null;
   for(const s of S){ if(s.sec!==sec){ sec=s.sec; const h=document.createElement('h2'); h.textContent=sec; el.appendChild(h); }
     const a=document.createElement('a'); a.href='#'+s.id; a.dataset.id=s.id; a.textContent=s.name;
-    a.onclick=e=>{ e.preventDefault(); $('map').classList.remove('open'); go(s.id); }; el.appendChild(a); }
-}
+    a.onclick=e=>{ e.preventDefault(); $('map').classList.remove('open'); go(s.id,'none'); }; el.appendChild(a); } }
 buildList($('list1')); buildList($('list2'));
-if(!isDesk){ $('mapbtn').style.display='block'; }
-$('mapbtn').onclick=e=>{ e.stopPropagation(); $('map').classList.add('open'); };
-$('mapclose').onclick=()=>$('map').classList.remove('open');
-// add-to-home-screen hint for iPhone Safari
-try{ if(!isDesk&&!isStandalone&&/iPhone|iPad/.test(navigator.userAgent)&&!localStorage.getItem('pandaHint')){ $('hint').style.display='flex'; } }catch(e){}
+if(desk){ const box=$('sizes'); DEV.forEach((d,i)=>{ const b=document.createElement('button'); b.textContent=d[0]; b.className=i===devI?'on':''; b.onclick=()=>{ devI=i; box.querySelectorAll('button').forEach((x,j)=>x.className=j===i?'on':''); relayout(); }; box.appendChild(b); }); }
+try{ if(!desk&&!standalone&&/iPhone|iPad/.test(navigator.userAgent)&&!localStorage.getItem('pandaHint')) $('hint').style.display='flex'; }catch(e){}
 $('hintx').onclick=()=>{ $('hint').style.display='none'; try{localStorage.setItem('pandaHint','1')}catch(e){} };
-addEventListener('resize',layout); layout();
-const first=location.hash.slice(1); const id=BY[first]?first:START;
-history.replaceState({id,n:0},'','#'+id); render(id);
+function relayout(){ geom(); if(curEl){ const id=cur; curEl.remove(); curEl=null; show(id,'none'); } }
+let rt; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(relayout,80); });
+geom();
+const first=location.hash.slice(1); const id0=BY[first]?first:START;
+history.replaceState({id:id0,n:0},'','#'+id0); show(id0,'none');
 </script>
 </body>
 </html>
