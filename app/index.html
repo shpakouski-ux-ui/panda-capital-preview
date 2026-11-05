@@ -90,7 +90,7 @@ function geom(){
   if(desk){ const d=DEV[devI]; const k=Math.min(1,(vh-48)/d[2]); vw=d[1]*k; vh=d[2]*k; }
   else vw=Math.min(vw,520);
   const s=vw/W;
-  const crop=standalone?SB:0, sTop=standalone?safeTop:0;
+  const crop=desk?0:SB, sTop=standalone?safeTop:0;
   G={vw,vh,s,crop,sTop};
   stage.style.width=vw+'px'; stage.style.height=vh+'px';
   const sb=$('sbar'); sb.style.display=standalone?'block':'none'; sb.style.height=sTop+'px';
